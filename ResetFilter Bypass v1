@@ -55,9 +55,9 @@ local ResetFilter = function()
 end
 
 ResetFilter()
-wait(0.2)
+wait()
 Chat(getgenv().pre or "pre")
-wait(0.2)
+wait()
 ResetFilter()
-wait(0.2)
+wait()
 Chat(getgenv().post or "post")
