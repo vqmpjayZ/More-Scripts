@@ -1,0 +1,63 @@
+--[[
+--use this to use it better
+getgenv().pre = "Enter text here"
+getgenv().post = "Enter text here"
+
+loadstring(game:HttpGet(""))()
+--]]
+
+local PlayerService = game:GetService("Players")
+local HttpService = game:GetService("HttpService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TextChatService = game:GetService("TextChatService")
+
+local IsLegacy = (TextChatService.ChatVersion == Enum.ChatVersion.LegacyChatService)
+local ChatRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
+local Channel = not IsLegacy and TextChatService.TextChannels.RBXGeneral
+
+local Chat = function(Message)
+    if IsLegacy then
+        ChatRemote:FireServer(Message, "All")
+    else
+        Channel:SendAsync(Message)
+    end
+end
+
+local Fake = function(Message)
+    if IsLegacy then
+        PlayerService:Chat(Message)
+    else
+        Channel:SendAsync(("/e %s"):format(Message))
+    end
+end
+
+local chars = {}
+for i=97,122 do chars[#chars+1]=string.char(i) end
+for i=65,90 do chars[#chars+1]=string.char(i) end
+
+local RNG = function(length)
+    local str = ""
+    for i = 1, length do
+        str = str .. chars[math.random(#chars)]
+    end
+    return str
+end
+
+local ResetFilter = function()
+    for i = 1, 10 do
+        local GUID = RNG(i)
+        local Filler = "i love asians so much"
+        local Reset = ("%s %s"):format(GUID, Filler)
+        task.spawn(function()
+            Fake(Reset)
+        end)
+    end
+end
+
+ResetFilter()
+wait(0.2)
+Chat(getgenv().pre or "pre")
+wait(0.2)
+ResetFilter()
+wait(0.2)
+Chat(getgenv().post or "post")
