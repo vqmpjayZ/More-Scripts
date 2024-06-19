@@ -3,7 +3,7 @@
 getgenv().pre = "Enter text here"
 getgenv().post = "Enter text here"
 
-loadstring(game:HttpGet(""))()
+loadstring(game:HttpGet("r"))()
 --]]
 
 local PlayerService = game:GetService("Players")
