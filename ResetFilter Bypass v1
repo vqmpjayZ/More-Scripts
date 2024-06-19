@@ -1,5 +1,5 @@
 --[[
---use this to use it better
+--use this to use it
 getgenv().pre = "Enter text here"
 getgenv().post = "Enter text here"
 
