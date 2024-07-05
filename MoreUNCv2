@@ -1686,7 +1686,6 @@ funcs.queueonteleport = funcs.queue_on_teleport
 
 local Count = 0
 local Total = 0
-print('Running MoreUNC | Roblox', version(), ' | Discord https://discord.gg/gYhqMRBeZV')
 
 local funcs2 = {}
 for i, _ in pairs(funcs) do
