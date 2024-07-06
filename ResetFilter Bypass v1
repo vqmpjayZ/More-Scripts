@@ -1,29 +1,42 @@
 --[[
-doesn't work rn, im try'na fix it
+This script basically resets the Chat filter!
+(Manual) Usage: ResetFilter()
+  
+    Credits to: heartasians (on discord)
+    Reworked by me :)
+
+Update Logs (DD.MM.YY):
+--// Reworked 6.7.2024
+
 --]]
 
-local PlayerService = game:GetService("Players")
-local HttpService = game:GetService("HttpService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local TextChatService = game:GetService("TextChatService")
-
-local IsLegacy = (TextChatService.ChatVersion == Enum.ChatVersion.LegacyChatService)
-local ChatRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
-local Channel = not IsLegacy and TextChatService.TextChannels.RBXGeneral
+local TCS = game:GetService("TextChatService")
+local RStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local CoreGui = game:GetService("CoreGui")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer.PlayerGui
+local isLegacy = TCS.ChatVersion == Enum.ChatVersion.LegacyChatService
+local ChatBar = CoreGui:FindFirstChild("TextBoxContainer", true) or PlayerGui:FindFirstChild("Chat"):FindFirstChild("ChatBar", true)
+ChatBar = ChatBar:FindFirstChild("TextBox") or ChatBar
 
 local Chat = function(Message)
-    if IsLegacy then
+    if isLegacy then
+        local ChatRemote = RStorage:FindFirstChild("SayMessageRequest", true)
         ChatRemote:FireServer(Message, "All")
     else
+        local Channel = TCS.TextChannels.RBXGeneral
         Channel:SendAsync(Message)
     end
 end
 
 local Fake = function(Message)
-    if IsLegacy then
-        PlayerService:Chat(Message)
+    if isLegacy then
+        Players:Chat(Message)
     else
-        Channel:SendAsync(("/e %s"):format(Message))
+        local Channel = TCS.TextChannels.RBXGeneral
+        -- Channel:SendAsync(("/e %s"):format(Message))
+        -- ^^^ its too annoying
     end
 end
 
@@ -41,8 +54,8 @@ end
 
 local ResetFilter = function()
     for i = 1, 10 do
-        local GUID = RNG(i)
-        local Filler = "i love asians so much"
+        local GUID = RNG(30) -- Increased length of random strings
+        local Filler = "real"
         local Reset = ("%s %s"):format(GUID, Filler)
         task.spawn(function()
             Fake(Reset)
@@ -50,10 +63,20 @@ local ResetFilter = function()
     end
 end
 
-ResetFilter()
-wait()
-Chat(getgenv().pre or "pre")
-wait()
-ResetFilter()
-wait()
-Chat(getgenv().post or "post")
+local Connection = Instance.new("BindableFunction")
+
+for _, c in getconnections(ChatBar.FocusLost) do
+    c:Disconnect()
+end
+
+ChatBar.FocusLost:Connect(function(enterPressed)
+    if enterPressed then
+        Connection:Invoke(ChatBar.Text)
+        ChatBar.Text = ""
+    end
+end)
+
+Connection.OnInvoke = function(Message)
+    Chat(Message)
+    ResetFilter()
+end
