@@ -1,9 +1,5 @@
 --[[
---use this to use it
-getgenv().pre = "Enter text here"
-getgenv().post = "Enter text here"
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/95c7e5921077288ec89f0c50f939f4596a81ca0d/ResetFilter%20Bypass%20v1"))()
+doesn't work rn, im try'na fix it
 --]]
 
 local PlayerService = game:GetService("Players")
