@@ -1,0 +1,2 @@
+			local k={[1]="Update",[2]={["DescriptionText"]= "Your text here",["ImageId"]=0}}
+			game:GetService("ReplicatedStorage").CustomiseBooth:FireServer(unpack(k))
