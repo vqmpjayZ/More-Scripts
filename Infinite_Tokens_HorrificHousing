@@ -4,7 +4,7 @@ READ READ READ READ READ READ READ READ READ READ READ READ READ READ READ READ 
 Instead of doing the way i did it in this script (it will be changed in the horrific housing hub)
 just do a repeat script for one of the get ornament scripts, and let it repeat for 10 seconds.
 
-It will give you all Ornaments and 3M Tokens
+It will give you all Ornaments and about 3M Tokens
 
 --]]
                 local A_1 = 1e-59
