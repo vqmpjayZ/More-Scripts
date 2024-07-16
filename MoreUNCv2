@@ -1,3 +1,8 @@
+--[[
+Gives More UNC to executers such as Solara and Incognito.
+Mostly Incognito because Solara has most of these
+--]]
+
 if getgenv and getgenv().MoreUNC then return end
 
 -- Definitions
