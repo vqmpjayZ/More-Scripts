@@ -1,3 +1,5 @@
+--this script no longer works.
+
 local Targets = {"All"} -- "All", "Target Name"
 
 local Players = game:GetService("Players")
