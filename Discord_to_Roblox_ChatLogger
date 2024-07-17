@@ -7,6 +7,8 @@ copy the webhook url
 put the webhooks url in the 'Your Discord Webhook Link Here!'
 
 this basically makes your bot start sending the chat messages from the server ur in
+
+i also fixed the syn.request shi
 --]]
 
 local marketplaceService = game:GetService("MarketplaceService")
@@ -18,7 +20,7 @@ local wh = 'Your Discord Webhook Link Here!'
 local embed1 = {
        ['title'] = 'Beginning of Message logs on '..info.Name.." at "..tostring(os.date("%m/%d/%y at time %X"))
    }
-local a = syn.request({
+local a = request({
    Url = wh,
    Headers = {['Content-Type'] = 'application/json'},
    Body = game:GetService("HttpService"):JSONEncode({['embeds'] = {embed1}, ['content'] = ''}),
