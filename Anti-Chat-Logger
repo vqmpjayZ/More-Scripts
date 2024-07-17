@@ -1,0 +1,11 @@
+-- This basically makes roblox unable to log your chat messages sent in-game. Meaning if you get reported for saying something bad, you won't get banned!
+-- Store the loadstring (line 5) in your autoexec folder into a text/lua file to receive automatic updates [remove the "--"" part when you paste it into the text file]
+-- Credits: heartasians
+
+-- loadstring(game:HttpGet("s", true))()
+
+--(DD/MM/YY)
+-- 17.7.2024 - Rewritten
+-- 18.4.2024 - TextChatService Support
+
+still testing, i'll release this hopefully tommorow, but most likely it would be the day after that
