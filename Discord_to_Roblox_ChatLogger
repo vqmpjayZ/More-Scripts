@@ -1,0 +1,27 @@
+--[[
+Tutorial:
+make a discord webhook
+copy the webhook url
+put the webhooks url in the "YOUR_DISCORD_WEBHOOK_URL"
+
+this basically makes your bot start sending the chat messages from the server ur in
+--]]
+
+local HttpService = game:GetService("HttpService")
+
+local webhookUrl = "YOUR_DISCORD_WEBHOOK_URL"
+
+local function sendToDiscord(message)
+    local data = {
+        ["content"] = message
+    }
+    local jsonData = HttpService:JSONEncode(data)
+    HttpService:PostAsync(webhookUrl, jsonData, Enum.HttpContentType.ApplicationJson)
+end
+
+game.Players.PlayerAdded:Connect(function(player)
+    player.Chatted:Connect(function(message)
+        local logMessage = player.Name .. ": " .. message
+        sendToDiscord(logMessage)
+    end)
+end)
