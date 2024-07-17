@@ -1,5 +1,6 @@
 --[[
 re-scripted darks script cz his dumbahh got his website removed
+i also fixed the syn.request shi
 
 Tutorial:
 make a discord webhook
@@ -7,8 +8,6 @@ copy the webhook url
 put the webhooks url in the 'Your Discord Webhook Link Here!'
 
 this basically makes your bot start sending the chat messages from the server ur in
-
-i also fixed the syn.request shi
 --]]
 
 local marketplaceService = game:GetService("MarketplaceService")
