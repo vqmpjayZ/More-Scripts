@@ -1,0 +1,45 @@
+--i dont know if this script works because i didint test it yet
+-- basically a roblox script that makes you invisible, spin very fast and teleport you to every player
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local RunService = game:GetService("RunService")
+local TeleportDelay = 2 -- you can change this if you want, 2sec is recommended
+
+local function makeInvisible()
+    for _, part in pairs(Character:GetChildren()) do
+        if part:IsA("BasePart") then
+            part.Transparency = 1
+            if part:FindFirstChild("face") then
+                part.face.Transparency = 1
+            end
+        elseif part:IsA("Accessory") then
+            part.Handle.Transparency = 1
+        elseif part:IsA("Shirt") or part:IsA("Pants") or part:IsA("ShirtGraphic") then
+            part:Destroy()
+        end
+    end
+end
+
+local function startSpinning()
+    local humanoidRootPart = Character:WaitForChild("HumanoidRootPart")
+    RunService.RenderStepped:Connect(function()
+        humanoidRootPart.CFrame = humanoidRootPart.CFrame * CFrame.Angles(0, math.rad(45), 0)
+    end)
+end
+
+local function teleportToPlayers()
+    while true do
+        for _, player in ipairs(Players:GetPlayers()) do
+            if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+                Character:SetPrimaryPartCFrame(player.Character.HumanoidRootPart.CFrame)
+                wait(TeleportDelay)
+            end
+        end
+    end
+end
+
+makeInvisible()
+startSpinning()
+teleportToPlayers()
