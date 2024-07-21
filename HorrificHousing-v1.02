@@ -1,7 +1,7 @@
 --[[
 Robox Horrific Housing Hub Script by Vadrifts
 Last Updated: 21.7.2024
-loadstring: https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/HorrificHousing-v1.02
+loadstring:  loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/HorrificHousing-v1.02"))()
 
 join the discord: https:dsc.gg/vadriftz
 --]]
