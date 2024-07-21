@@ -1,4 +1,5 @@
---[[
+--[[DISLAIMER, THE SCRIPT DOESNT WORK AS INTENDED, MOONSEC IS DOWN AND I CANT UPDATE IT!
+
 Robox Horrific Housing Hub Script by Vadrifts
 Last Updated: 21.7.2024
 loadstring:  loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/HorrificHousing-v1.02"))()
