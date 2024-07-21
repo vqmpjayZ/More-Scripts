@@ -8,7 +8,7 @@
 -- 17.7.2024 - Rewritten
 -- 18.4.2024 - TextChatService Support
 
---[[DISLAMIER THE WHOLE SCRIPT IS TILL NOT HERE:
+--[[DISLAMIER: THE SCRIPT IS STILL NOT FINNISHED:
 
 local TextChatService = game:GetService("TextChatService")
 
