@@ -1,0 +1,10 @@
+--[[
+Basically two roblox scripts that send a message of your choise into the roblox chat.
+Both of these scripts dont work for the oppsite versions of chat services.
+--]]
+
+--Legacy Chat
+game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Message", "All")
+
+--TextChatService
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Message")
