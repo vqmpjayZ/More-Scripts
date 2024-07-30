@@ -1,11 +1,9 @@
--- Basically Anthony's anti-chat logger script but the TextChatService warning ui is set false (not visible)
+-- Basically Anthony's anti-chat logger script but the TextChatService warning ui is set to false (not visible)
 -- Thank you anthony
 
 if not game:IsLoaded() then
     game.Loaded:wait()
 end
-
-task.wait(5)
 
 local ACL_LoadTime = tick()
 local NotificationTitle = "Anthony's ACL"
