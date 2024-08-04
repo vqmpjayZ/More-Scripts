@@ -48,7 +48,7 @@ local function executeScript()
     local ACLloadTime = tick() - startTime
 
     showNotification("Vadrifts ACL", string.format("Anti Chat & Screenshot logger loaded in %.2fs", ACLloadTime), "rbxassetid://2541869220")
-    print(string.format("ACL successfully loaded in %.2f seconds!", ACLloadTime))
+    print(string.format("Anti Chat Logger successfully loaded in %.2f seconds!", ACLloadTime))
 
     Util.ChatHook().OnInvoke = function(Message)
         Util.Chat(Message)
