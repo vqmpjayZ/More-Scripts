@@ -7,16 +7,13 @@
 --(DD/MM/YY)
 -- 17.7.2024 - Rewritten
 -- 18.4.2024 - TextChatService Support
--- 4.8.2024 - Notifications for execution on TCS
+-- 4.8.2024 - Notifications for execution on TCS + fixed legacy vrs
 
 local TextChatService = game:GetService("TextChatService")
+local Players = game:GetService("Players")
 
-local function runLegacyChatScript()
--- Credits: AnthonyIsntHere
-loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))()
-end
+if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
 
-local function runTextChatServiceScript()
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
@@ -57,11 +54,8 @@ end
 
 executeScript()
 
-end
-
-if TextChatService and TextChatService.ChatVersion then
-    runTextChatServiceScript()
 else
-    runLegacyChatScript()
-end
 
+-- Credits: AnthonyIsntHere
+loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))()
+end
