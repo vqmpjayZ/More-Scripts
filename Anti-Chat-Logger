@@ -21,8 +21,6 @@ end
 
 wait(1)
 
-local Util = loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/utils/main/main"))()
-
 local isExecuted = false
 local startTime = tick()
 
@@ -55,9 +53,69 @@ if setfflag then
     end)
 end
 
-    Util.ChatHook().OnInvoke = function(Message)
-        Util.Chat(Message)
+repeat task.wait() until game:IsLoaded()
+
+local TCS = game:GetService("TextChatService")
+local CoreGui = game:GetService("CoreGui")
+local RStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer.PlayerGui
+
+local isLegacy = TCS.ChatVersion == Enum.ChatVersion.LegacyChatService
+local ChatBar = CoreGui:FindFirstChild("TextBoxContainer", true) or PlayerGui:FindFirstChild("Chat"):FindFirstChild("ChatBar", true)
+ChatBar = ChatBar:FindFirstChild("TextBox") or ChatBar
+
+local Keywords = {
+    {"i love iheartasians", "ily iheartasians"},
+}
+
+local Gen = function(Message)
+
+    for _, info in Keywords do
+        local real = info[1]
+        local bypass = info[2]
+        Message = Message:gsub(real, bypass)
     end
+
+    return Message .. "󠀕"
+end
+
+local Chat = function(Message)
+    if isLegacy then
+        local ChatRemote = RStorage:FindFirstChild("SayMessageRequest", true)
+        if ChatRemote then
+            ChatRemote:FireServer(Message, "All")
+        else
+            warn("SayMessageRequest not found in ReplicatedStorage")
+        end
+    else
+        local Channel = TCS.TextChannels.RBXGeneral
+        if Channel then
+            Channel:SendAsync(Message)
+        else
+            warn("RBXGeneral channel not found in TextChannels")
+        end
+    end
+end
+
+if ChatBar and ChatBar:IsA("TextBox") then
+    for _, c in ipairs(getconnections(ChatBar.FocusLost)) do
+        c:Disconnect()
+    end
+
+    ChatBar.FocusLost:Connect(function(enterPressed)
+        if enterPressed then
+            local message = Gen(ChatBar.Text)
+            Chat(message)
+            ChatBar.Text = ""
+        end
+    end)
+else
+    warn("ChatBar or TextBox not found")
+end
+
 end
 
 executeScript()
