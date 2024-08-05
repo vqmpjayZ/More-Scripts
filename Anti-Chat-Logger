@@ -115,7 +115,6 @@ if ChatBar and ChatBar:IsA("TextBox") then
 else
     warn("ChatBar or TextBox not found")
 end
-
 end
 
 executeScript()
