@@ -115,12 +115,10 @@ if ChatBar and ChatBar:IsA("TextBox") then
 else
     warn("ChatBar or TextBox not found")
 end
-end
+   end
 
 executeScript()
-
-else
-
+ else
 -- Credits: AnthonyIsntHere
 loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))()
 end
