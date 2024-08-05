@@ -8,6 +8,7 @@
 -- 17.7.2024 - Rewritten
 -- 18.4.2024 - TextChatService Support
 -- 4.8.2024 - Notifications for execution on TCS + fixed legacy vrs
+-- 5.8.2024 - Added Anti Screenshot logger (oops)
 
 local TextChatService = game:GetService("TextChatService")
 local Players = game:GetService("Players")
@@ -46,6 +47,13 @@ local function executeScript()
 
     showNotification("Vadrifts ACL", string.format("Anti Chat & Screenshot logger loaded in %.2fs", ACLloadTime), "rbxassetid://2541869220")
     print(string.format("Anti Chat Logger successfully loaded in %.2f seconds!", ACLloadTime))
+
+if setfflag then
+    pcall(function()
+        setfflag("AbuseReportScreenshot", "False")
+        setfflag("AbuseReportScreenshotPercentage", "0")
+    end)
+end
 
     Util.ChatHook().OnInvoke = function(Message)
         Util.Chat(Message)
