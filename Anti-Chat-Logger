@@ -10,8 +10,17 @@
 -- 4.8.2024 - Notifications for execution on TCS + fixed legacy vrs
 -- 5.8.2024 - Added Anti Screenshot logger (oops)
 
-local TextChatService = game:GetService("TextChatService")
+local TCS = game:GetService("TextChatService")
+local CoreGui = game:GetService("CoreGui")
+local RStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
+
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer.PlayerGui
+
+local isLegacy = TCS.ChatVersion == Enum.ChatVersion.LegacyChatService
+local ChatBar = CoreGui:FindFirstChild("TextBoxContainer", true) or PlayerGui:FindFirstChild("Chat"):FindFirstChild("ChatBar", true)
+ChatBar = ChatBar:FindFirstChild("TextBox") or ChatBar
 
 if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
 
@@ -53,19 +62,7 @@ if setfflag then
     end)
 end
 
-repeat task.wait() until game:IsLoaded()
-
-local TCS = game:GetService("TextChatService")
-local CoreGui = game:GetService("CoreGui")
-local RStorage = game:GetService("ReplicatedStorage")
-local Players = game:GetService("Players")
-
-local LocalPlayer = Players.LocalPlayer
-local PlayerGui = LocalPlayer.PlayerGui
-
-local isLegacy = TCS.ChatVersion == Enum.ChatVersion.LegacyChatService
-local ChatBar = CoreGui:FindFirstChild("TextBoxContainer", true) or PlayerGui:FindFirstChild("Chat"):FindFirstChild("ChatBar", true)
-ChatBar = ChatBar:FindFirstChild("TextBox") or ChatBar
+-- Credits: iheartasians
 
 local Keywords = {
     {"i love iheartasians", "ily iheartasians"},
