@@ -64,13 +64,13 @@ end
 
 -- Credits: iheartasians
 
-local Keywords = {
+local Autocorrect = {
     {"i love iheartasians", "ily iheartasians"},
 }
 
 local Gen = function(Message)
 
-    for _, info in Keywords do
+    for _, info in Autocorrect do
         local real = info[1]
         local bypass = info[2]
         Message = Message:gsub(real, bypass)
