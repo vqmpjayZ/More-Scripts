@@ -10,6 +10,8 @@
 -- 4.8.2024 - Notifications for execution on TCS + fixed legacy vrs
 -- 5.8.2024 - Added Anti Screenshot logger (oops)
 
+--https://dsc.gg/vadriftz
+
 local TCS = game:GetService("TextChatService")
 local CoreGui = game:GetService("CoreGui")
 local RStorage = game:GetService("ReplicatedStorage")
