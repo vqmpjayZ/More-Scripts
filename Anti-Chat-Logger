@@ -65,7 +65,7 @@ if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
         end
 
         local function Gen(Message)
-            return Message .. "￴"
+            return Message .. "󠀕"
         end
 
         local function Chat(Message)
