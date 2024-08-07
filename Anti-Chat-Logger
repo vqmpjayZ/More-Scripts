@@ -1,6 +1,6 @@
 -- This basically makes roblox unable to log your chat messages sent in-game. Meaning if you get reported for saying something bad, you won't get banned!
 -- Store the loadstring (line 5) in your autoexec folder into a text/lua file to receive automatic updates [remove the "--"" part when you paste it into the text file]
--- Credits: heartasians, AnthonyIsntHere
+-- Credits: AnthonyIsntHere
 
 -- loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anti-Chat-Logger", true))()
 
@@ -9,13 +9,17 @@
 -- 18.4.2024 - TextChatService Support
 -- 4.8.2024 - Notifications for execution on TCS + fixed legacy vrs
 -- 5.8.2024 - Added Anti Screenshot logger (oops)
+-- 7.8.2024 - Reworked + Added Support to Delta
 
 --https://dsc.gg/vadriftz
+
+repeat task.wait() until game:IsLoaded()
 
 local TCS = game:GetService("TextChatService")
 local CoreGui = game:GetService("CoreGui")
 local RStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
+local StarterGui = game:GetService("StarterGui")
 
 local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer.PlayerGui
@@ -24,100 +28,77 @@ local isLegacy = TCS.ChatVersion == Enum.ChatVersion.LegacyChatService
 local ChatBar = CoreGui:FindFirstChild("TextBoxContainer", true) or PlayerGui:FindFirstChild("Chat"):FindFirstChild("ChatBar", true)
 ChatBar = ChatBar:FindFirstChild("TextBox") or ChatBar
 
-if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
 
-if not game:IsLoaded() then
-    game.Loaded:Wait()
-end
+    wait(1)
 
-wait(1)
+    local isExecuted = false
+    local startTime = tick()
 
-local isExecuted = false
-local startTime = tick()
-
-local function showNotification(title, description, imageId)
-    game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = title;
-        Text = description;
-        Icon = imageId;
-        Duration = 15;
-    })
-end
-
-local function executeScript()
-    if isExecuted then
-        showNotification("ACL Already Loaded!", "Anti Chat and Screenshot logger already loaded!", "rbxassetid://2541869220")
-        return
+    local function showNotification(title, description, imageId)
+        StarterGui:SetCore("SendNotification", {
+            Title = title;
+            Text = description;
+            Icon = imageId;
+            Duration = 15;
+        })
     end
 
-    isExecuted = true
+    local function executeScript()
+        if isExecuted then
+            showNotification("ACL Already Loaded!", "Anti Chat and Screenshot logger already loaded!", "rbxassetid://2541869220")
+            return
+        end
 
-    local ACLloadTime = tick() - startTime
+        isExecuted = true
 
-    showNotification("Vadrifts ACL", string.format("Anti Chat & Screenshot logger loaded in %.2fs", ACLloadTime), "rbxassetid://2541869220")
-    print(string.format("Anti Chat Logger successfully loaded in %.2f seconds!", ACLloadTime))
+        local ACLloadTime = tick() - startTime
 
-if setfflag then
-    pcall(function()
-        setfflag("AbuseReportScreenshot", "False")
-        setfflag("AbuseReportScreenshotPercentage", "0")
-    end)
-end
+        showNotification("Vadrifts ACL", string.format("Anti Chat & Screenshot logger loaded in %.2fs", ACLloadTime), "rbxassetid://2541869220")
+        print(string.format("Anti Chat Logger successfully loaded in %.2f seconds!", ACLloadTime))
 
--- Credits: iheartasians
+        if setfflag then
+            pcall(function()
+                setfflag("AbuseReportScreenshot", "False")
+                setfflag("AbuseReportScreenshotPercentage", "0")
+            end)
+        end
 
-local Autocorrect = {
-    {"i love iheartasians", "ily iheartasians"},
-}
+        local function Gen(Message)
+            return Message .. "￴"
+        end
 
-local Gen = function(Message)
+        local function Chat(Message)
+            local modifiedMessage = Gen(Message)
+            local Channel = TCS.TextChannels.RBXGeneral
+            if Channel then
+                pcall(function()
+                    Channel:SendAsync(modifiedMessage)
+                end)
+            else
+                warn("RBXGeneral channel not found in TextChannels")
+            end
+        end
 
-    for _, info in Autocorrect do
-        local real = info[1]
-        local bypass = info[2]
-        Message = Message:gsub(real, bypass)
-    end
+        if ChatBar and ChatBar:IsA("TextBox") then
+            for _, c in ipairs(getconnections(ChatBar.FocusLost)) do
+                c:Disconnect()
+            end
 
-    return Message .. "󠀕"
-end
-
-local Chat = function(Message)
-    if isLegacy then
-        local ChatRemote = RStorage:FindFirstChild("SayMessageRequest", true)
-        if ChatRemote then
-            ChatRemote:FireServer(Message, "All")
+            ChatBar.FocusLost:Connect(function(enterPressed)
+                if enterPressed then
+                    local message = ChatBar.Text
+                    Chat(message)
+                    ChatBar.Text = ""
+                end
+            end)
         else
-            warn("SayMessageRequest not found in ReplicatedStorage")
-        end
-    else
-        local Channel = TCS.TextChannels.RBXGeneral
-        if Channel then
-            Channel:SendAsync(Message)
-        else
-            warn("RBXGeneral channel not found in TextChannels")
+            warn("ChatBar or TextBox not found")
         end
     end
-end
 
-if ChatBar and ChatBar:IsA("TextBox") then
-    for _, c in ipairs(getconnections(ChatBar.FocusLost)) do
-        c:Disconnect()
-    end
-
-    ChatBar.FocusLost:Connect(function(enterPressed)
-        if enterPressed then
-            local message = Gen(ChatBar.Text)
-            Chat(message)
-            ChatBar.Text = ""
-        end
-    end)
+    executeScript()
 else
-    warn("ChatBar or TextBox not found")
-end
-   end
-
-executeScript()
- else
--- Credits: AnthonyIsntHere
-loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))()
+    -- Credits: AnthonyIsntHere
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))()
 end
