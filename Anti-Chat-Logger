@@ -9,7 +9,7 @@
 -- 18.4.2024 - TextChatService Support
 -- 4.8.2024 - Notifications for execution on TCS + fixed legacy vrs
 -- 5.8.2024 - Added Anti Screenshot logger (oops)
--- 7.8.2024 - Reworked + Added Support to Delta
+-- 7.8.2024 - Reworked + Added Support to Delta + Fixed /e not working
 
 --https://dsc.gg/vadriftz
 
@@ -65,6 +65,10 @@ if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
         end
 
         local function Gen(Message)
+
+            if Message:sub(1, 2) == "/e" then
+                return Message
+            end
             return Message .. "󠀕"
         end
 
