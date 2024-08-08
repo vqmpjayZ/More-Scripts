@@ -19,7 +19,6 @@ if not game:IsLoaded() then
 end
 
 local TCS = game:GetService("TextChatService")
-local TextChatService = game:GetService("TextChatService")
 local isLegacy = TCS.ChatVersion == Enum.ChatVersion.LegacyChatService
 
 local CoreGui = game:GetService("CoreGui")
@@ -31,7 +30,6 @@ local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer.PlayerGui
 
 if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
-
     wait(1)
 
     local isExecuted = false
@@ -49,7 +47,7 @@ if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
     local function executeScript()
         if isExecuted then
             showNotification("ACL Already Loaded!", "Anti Chat and Screenshot logger already loaded!", "rbxassetid://2541869220")
-        print(string.format("Anti Chat Logger already loaded!"))
+            print("Anti Chat Logger already loaded!")
             return
         end
 
@@ -60,13 +58,6 @@ if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
         showNotification("Vadrifts ACL", string.format("Anti Chat & Screenshot logger loaded in %.2fs", ACLloadTime), "rbxassetid://2541869220")
         print(string.format("Anti Chat Logger successfully loaded in %.2f seconds!", ACLloadTime))
 
-local EnabledChat = task.spawn(function()
-    repeat
-        StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)
-        task.wait()
-    until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat)
-end)
-
         if setfflag then
             pcall(function()
                 setfflag("AbuseReportScreenshot", "False")
@@ -74,24 +65,34 @@ end)
             end)
         end
 
-local function AntiChatLog(message)
-    if message:sub(1, 2) == "/e" then
-        return message
-    else
-        return message .. "󠀕"
+        local function AntiChatLog(message)
+            if message:sub(1, 2) == "/e" then
+                return message
+            else
+                return message .. "󠀕"
+            end
+        end
+
+        local function onMessageSent(message)
+            local modifiedMessage = AntiChatLog(message.Text)
+            message.Text = modifiedMessage
+        end
+
+        TCS.OnIncomingMessage = function(message)
+            onMessageSent(message)
+        end
     end
-end
 
-local function onMessageSent(message)
-    local modifiedMessage = AntiChatLog(message.Text)
-    message.Text = modifiedMessage
-end
-
-TextChatService.OnIncomingMessage = function(message)
-    onMessageSent(message)
-end
     executeScript()
+
+    local EnabledChat = task.spawn(function()
+        repeat
+            StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)
+            task.wait()
+        until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat)
+    end)
+
 else
     -- Credits: AnthonyIsntHere
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anti-Chat-Logger", true))()
 end
