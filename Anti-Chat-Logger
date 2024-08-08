@@ -94,5 +94,5 @@ if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
 
 else
     -- Credits: AnthonyIsntHere
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anti-Chat-Logger", true))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL", true))()
 end
