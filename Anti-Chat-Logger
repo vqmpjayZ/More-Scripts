@@ -49,6 +49,7 @@ if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
     local function executeScript()
         if isExecuted then
             showNotification("ACL Already Loaded!", "Anti Chat and Screenshot logger already loaded!", "rbxassetid://2541869220")
+        print(string.format("Anti Chat Logger already loaded!"))
             return
         end
 
@@ -56,8 +57,15 @@ if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
 
         local ACLloadTime = tick() - startTime
 
-        showNotification("Vadrifts ACL", string.format("Anti Chat & Screenshot logger loaded in %.2fs", ACLloadTime), "rbxassetid://2541869220")
+        showNotification("Vadrifts ACL", string.format("Anti Chat & Screenshot logger loaded in %.2fs", ACLloadTime), "rbxassetid://2541869220")
         print(string.format("Anti Chat Logger successfully loaded in %.2f seconds!", ACLloadTime))
+
+local EnabledChat = task.spawn(function()
+    repeat
+        StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)
+        task.wait()
+    until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat)
+end)
 
         if setfflag then
             pcall(function()
