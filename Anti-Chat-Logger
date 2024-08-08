@@ -10,23 +10,25 @@
 -- 4.8.2024 - Notifications for execution on TCS + fixed legacy vrs
 -- 5.8.2024 - Added Anti Screenshot logger (oops)
 -- 7.8.2024 - Reworked + Added Support to Delta + Fixed /e not working
+-- 9.8.2024 - Reworked (again) + fixed textbox not getting cleared when using /e commands
 
 --https://dsc.gg/vadriftz
 
-repeat task.wait() until game:IsLoaded()
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
 
 local TCS = game:GetService("TextChatService")
+local TextChatService = game:GetService("TextChatService")
+local isLegacy = TCS.ChatVersion == Enum.ChatVersion.LegacyChatService
+
 local CoreGui = game:GetService("CoreGui")
 local RStorage = game:GetService("ReplicatedStorage")
-local Players = game:GetService("Players")
 local StarterGui = game:GetService("StarterGui")
 
+local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer.PlayerGui
-
-local isLegacy = TCS.ChatVersion == Enum.ChatVersion.LegacyChatService
-local ChatBar = CoreGui:FindFirstChild("TextBoxContainer", true) or PlayerGui:FindFirstChild("Chat"):FindFirstChild("ChatBar", true)
-ChatBar = ChatBar:FindFirstChild("TextBox") or ChatBar
 
 if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
 
@@ -64,43 +66,22 @@ if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
             end)
         end
 
-        local function Gen(Message)
-
-            if Message:sub(1, 2) == "/e" then
-                return Message
-            end
-            return Message .. "󠀕"
-        end
-
-        local function Chat(Message)
-            local modifiedMessage = Gen(Message)
-            local Channel = TCS.TextChannels.RBXGeneral
-            if Channel then
-                pcall(function()
-                    Channel:SendAsync(modifiedMessage)
-                end)
-            else
-                warn("RBXGeneral channel not found in TextChannels")
-            end
-        end
-
-        if ChatBar and ChatBar:IsA("TextBox") then
-            for _, c in ipairs(getconnections(ChatBar.FocusLost)) do
-                c:Disconnect()
-            end
-
-            ChatBar.FocusLost:Connect(function(enterPressed)
-                if enterPressed then
-                    local message = ChatBar.Text
-                    Chat(message)
-                    ChatBar.Text = ""
-                end
-            end)
-        else
-            warn("ChatBar or TextBox not found")
-        end
+local function AntiChatLog(message)
+    if message:sub(1, 2) == "/e" then
+        return message
+    else
+        return message .. "󠀕"
     end
+end
 
+local function onMessageSent(message)
+    local modifiedMessage = AntiChatLog(message.Text)
+    message.Text = modifiedMessage
+end
+
+TextChatService.OnIncomingMessage = function(message)
+    onMessageSent(message)
+end
     executeScript()
 else
     -- Credits: AnthonyIsntHere
