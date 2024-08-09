@@ -30,7 +30,7 @@ local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer.PlayerGui
 
 if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
-    wait(1)
+    wait(0.21)
 
     local isExecuted = false
     local startTime = tick()
