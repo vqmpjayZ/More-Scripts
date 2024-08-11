@@ -11,6 +11,7 @@
 -- 5.8.2024 - Added Anti Screenshot logger (oops)
 -- 7.8.2024 - Reworked + Added Support to Delta + Fixed /e not working
 -- 9.8.2024 - Reworked (again) + fixed textbox not getting cleared when using /e commands
+-- 11.8.2024 - Fixed the notifications
 
 --https://dsc.gg/vadriftz
 
@@ -29,10 +30,18 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer.PlayerGui
 
+local executionTracker = RStorage:FindFirstChild("ScriptExecutedTracker")
+
+if not executionTracker then
+    executionTracker = Instance.new("BoolValue")
+    executionTracker.Name = "ScriptExecutedTracker"
+    executionTracker.Value = false
+    executionTracker.Parent = RStorage
+end
+
 if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
     wait(0.21)
 
-    local isExecuted = false
     local startTime = tick()
 
     local function showNotification(title, description, imageId)
@@ -45,13 +54,13 @@ if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
     end
 
     local function executeScript()
-        if isExecuted then
-            showNotification("ACL Already Loaded!", "Anti Chat and Screenshot logger already loaded!", "rbxassetid://2541869220")
+        if executionTracker.Value then
+            showNotification("Vadrifts ACL", "Anti Chat and Screenshot logger already loaded!", "rbxassetid://2541869220")
             print("Anti Chat Logger already loaded!")
             return
         end
 
-        isExecuted = true
+        executionTracker.Value = true
 
         local ACLloadTime = tick() - startTime
 
@@ -85,7 +94,7 @@ if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
 
     executeScript()
 
-    local EnabledChat = task.spawn(function()
+    task.spawn(function()
         repeat
             StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)
             task.wait()
