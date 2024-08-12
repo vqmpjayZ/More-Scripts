@@ -61,7 +61,7 @@ local function executeScript()
         pcall(function()
             setfflag("AbuseReportScreenshot", "False")
             setfflag("AbuseReportScreenshotPercentage", "0")
-        end) --anit screenshot logger
+        end) --anti screenshot logger
     end
 
     local function AntiChatLog(message)
