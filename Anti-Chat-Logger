@@ -19,89 +19,93 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
-local TCS = game:GetService("TextChatService")
-local isLegacy = TCS.ChatVersion == Enum.ChatVersion.LegacyChatService
-
-local CoreGui = game:GetService("CoreGui")
-local RStorage = game:GetService("ReplicatedStorage")
-local StarterGui = game:GetService("StarterGui")
-
 local Players = game:GetService("Players")
+local StarterGui = game:GetService("StarterGui")
 local LocalPlayer = Players.LocalPlayer
-local PlayerGui = LocalPlayer.PlayerGui
 
-local executionTracker = RStorage:FindFirstChild("ScriptExecutedTracker")
-
-if not executionTracker then
-    executionTracker = Instance.new("BoolValue")
-    executionTracker.Name = "ScriptExecutedTracker"
-    executionTracker.Value = false
-    executionTracker.Parent = RStorage
+local hasExecuted = LocalPlayer:FindFirstChild("HasExecuted")
+if not hasExecuted then
+    hasExecuted = Instance.new("BoolValue")
+    hasExecuted.Name = "HasExecuted"
+    hasExecuted.Value = false
+    hasExecuted.Parent = LocalPlayer
 end
 
-if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
-    wait(0.21)
+local startTime = tick()
 
-    local startTime = tick()
+local function showNotification(title, description, imageId)
+    StarterGui:SetCore("SendNotification", {
+        Title = title;
+        Text = description;
+        Icon = imageId;
+        Duration = 15;
+    })
+end
 
-    local function showNotification(title, description, imageId)
-        StarterGui:SetCore("SendNotification", {
-            Title = title;
-            Text = description;
-            Icon = imageId;
-            Duration = 15;
-        })
+local function executeScript()
+    if hasExecuted.Value then
+        showNotification("Vadrifts ACL", "Anti Chat and Screenshot logger already loaded!", "rbxassetid://2541869220")
+        print("Anti Chat Logger already loaded!")
+        return
     end
 
-    local function executeScript()
-        if executionTracker.Value then
-            showNotification("Vadrifts ACL", "Anti Chat and Screenshot logger already loaded!", "rbxassetid://2541869220")
-            print("Anti Chat Logger already loaded!")
-            return
+    hasExecuted.Value = true
+
+    local ACLloadTime = tick() - startTime
+
+    showNotification("Vadrifts ACL", string.format("Anti Chat & Screenshot logger loaded in %.2fs", ACLloadTime), "rbxassetid://2541869220")
+    print(string.format("Anti Chat Logger successfully loaded in %.2f seconds!", ACLloadTime))
+
+    if setfflag then
+        pcall(function()
+            setfflag("AbuseReportScreenshot", "False")
+            setfflag("AbuseReportScreenshotPercentage", "0")
+        end) --anit screenshot logger
+    end
+
+    local function AntiChatLog(message)
+        if message:sub(1, 2) == "/e" then
+            return message
+        else
+            return message .. ""
         end
+    end
 
-        executionTracker.Value = true
+    local function onMessageSent(message)
+        local modifiedMessage = AntiChatLog(message.Text)
+        message.Text = modifiedMessage
+    end
 
-        local ACLloadTime = tick() - startTime
-
-        showNotification("Vadrifts ACL", string.format("Anti Chat & Screenshot logger loaded in %.2fs", ACLloadTime), "rbxassetid://2541869220")
-        print(string.format("Anti Chat Logger successfully loaded in %.2f seconds!", ACLloadTime))
-
-        if setfflag then
-            pcall(function()
-                setfflag("AbuseReportScreenshot", "False")
-                setfflag("AbuseReportScreenshotPercentage", "0")
-            end)
-        end
-
-        local function AntiChatLog(message)
-            if message:sub(1, 2) == "/e" then
-                return message
-            else
-                return message .. "󠀕"
-            end
-        end
-
-        local function onMessageSent(message)
-            local modifiedMessage = AntiChatLog(message.Text)
-            message.Text = modifiedMessage
-        end
-
+    if TCS then
         TCS.OnIncomingMessage = function(message)
             onMessageSent(message)
         end
+    else
+        print("TextChatService not available")
     end
+end
 
+local TCS = game:GetService("TextChatService")
+local isLegacy = TCS.ChatVersion == Enum.ChatVersion.LegacyChatService
+
+if isLegacy then
+    -- Credits: AnthonyIsntHere
+    local success, errorMsg = pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anti-Chat-Logger", true))()
+    end)
+    
+    if not success then
+        showNotification("Error", "Failed to load Legacy Chat script: " .. errorMsg, "rbxassetid://2541869220")
+        print("Error loading Legacy Chat script: " .. errorMsg)
+    end
+else
+    wait(0.21)
     executeScript()
 
-    task.spawn(function()
+    local EnabledChat = task.spawn(function()
         repeat
             StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)
             task.wait()
         until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat)
     end)
-
-else
-    -- Credits: AnthonyIsntHere
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL", true))()
 end
