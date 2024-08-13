@@ -12,7 +12,7 @@
 -- 7.8.2024 - Reworked + Added Support to Delta + Fixed /e commands not working
 -- 9.8.2024 - Reworked (again) + fixed textbox not getting cleared when using /e commands
 -- 11.8.2024 - Fixed the notifications
--- 12-8.2024 - Fixed Legacy (again)
+-- 12.8.2024 - Fixed Legacy (again)
 
 --https://dsc.gg/vadriftz
 
@@ -98,7 +98,6 @@ end
             task.wait()
         until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat)
     end)
-end
 
 else
     -- Credits: AnthonyIsntHere
