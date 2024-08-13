@@ -91,14 +91,7 @@ local isLegacy = TCS.ChatVersion == Enum.ChatVersion.LegacyChatService
 
 if isLegacy then
     -- Credits: AnthonyIsntHere
-    local success, errorMsg = pcall(function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))()
-    end)
-    
-    if not success then
-        showNotification("Error", "Failed to load Legacy Chat script: " .. errorMsg, "rbxassetid://2541869220")
-        print("Error loading Legacy Chat script: " .. errorMsg)
-    end
 else
     wait(0.21)
     executeScript()
