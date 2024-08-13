@@ -20,9 +20,12 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
+local TCS = game:GetService("TextChatService")
 local Players = game:GetService("Players")
-local StarterGui = game:GetService("StarterGui")
 local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer.PlayerGui
+
+if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
 
 local hasExecuted = LocalPlayer:FindFirstChild("HasExecuted")
 if not hasExecuted then
@@ -86,13 +89,6 @@ local function executeScript()
     end
 end
 
-local TCS = game:GetService("TextChatService")
-local isLegacy = TCS.ChatVersion == Enum.ChatVersion.LegacyChatService
-
-if isLegacy then
-    -- Credits: AnthonyIsntHere
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))()
-else
     wait(0.21)
     executeScript()
 
@@ -102,4 +98,9 @@ else
             task.wait()
         until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat)
     end)
+end
+
+else
+    -- Credits: AnthonyIsntHere
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))()
 end
