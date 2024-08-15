@@ -38,6 +38,7 @@ end
 local startTime = tick()
 
 local function showNotification(title, description, imageId)
+    if StarterGui then
     StarterGui:SetCore("SendNotification", {
         Title = title;
         Text = description;
