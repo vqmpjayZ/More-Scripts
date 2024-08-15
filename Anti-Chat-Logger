@@ -139,13 +139,15 @@ end
 wait(0.21)
 executeScript()
 
-task.spawn(function()
-    if StarterGui then
-        repeat
-            StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)
-            task.wait()
-        until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat)
-    end
+pcall(function()
+    task.spawn(function()
+        if StarterGui then
+            repeat
+                StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)
+                task.wait()
+            until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat)
+        end
+    end)
 end)
 
 -- ↑↑↑ IF ANYONE KNOWS HOW TO MAKE THIS SHIT WORK EVEN WHEN YOU DO /E LMK (on legacy) ↑↑↑
