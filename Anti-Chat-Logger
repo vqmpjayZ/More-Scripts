@@ -5,14 +5,7 @@
 -- loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anti-Chat-Logger", true))()
 
 --(DD/MM/YY)
--- 17.7.2024 - Rewritten
--- 18.4.2024 - TextChatService Support
--- 4.8.2024 - Notifications for execution on TCS + fixed legacy vrs
--- 5.8.2024 - Added Anti Screenshot logger (oops)
--- 7.8.2024 - Reworked + Added Support to Delta + Fixed /e commands not working
--- 9.8.2024 - Reworked (again) + fixed textbox not getting cleared when using /e commands
--- 11.8.2024 - Fixed the notifications
--- 14.8.2024 - Added Solara Support - 2% UNC LOL
+--15.8.2024 - Rewritten (i was high when i was doing it before)
 
 --https://dsc.gg/vadriftz
 
@@ -89,85 +82,7 @@ local function executeScript()
         print("TextChatService not available")
     end
 end
-
-    wait(0.21)
-    executeScript()
-
-    local EnabledChat = task.spawn(function()
-        repeat
-            StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)
-            task.wait()
-        until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat)
-    end)
-
 else
-if not game:IsLoaded() then
-    game.Loaded:Wait()
-end
-
-local TCS = game:GetService("TextChatService")
-local Players = game:GetService("Players")
-local StarterGui = game:GetService("StarterGui")
-local LocalPlayer = Players.LocalPlayer
-local CoreGui = game:GetService("CoreGui")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local UserInputService = game:GetService("UserInputService")
-
-local startTime = tick()
-
-local function showNotification(title, description, imageId)
-    StarterGui:SetCore("SendNotification", {
-        Title = title;
-        Text = description;
-        Icon = imageId;
-        Duration = 15;
-    })
-end
-
-local function executeScript()
-    local hasExecuted = LocalPlayer:FindFirstChild("HasExecuted")
-    if not hasExecuted then
-        hasExecuted = Instance.new("BoolValue")
-        hasExecuted.Name = "HasExecuted"
-        hasExecuted.Value = false
-        hasExecuted.Parent = LocalPlayer
-    end
-
-    if hasExecuted.Value then
-        showNotification("Vadrifts ACL", "Anti Chat and Screenshot logger already loaded!", "rbxassetid://2541869220")
-        print("Anti Chat Logger already loaded!")
-        return
-    end
-
-    hasExecuted.Value = true
-    local ACLloadTime = tick() - startTime
-
-    showNotification("Vadrifts ACL", string.format("Anti Chat & Screenshot logger loaded in %.2fs", ACLloadTime), "rbxassetid://2541869220")
-    print(string.format("Anti Chat Logger successfully loaded in %.2f seconds!", ACLloadTime))
-
-    if setfflag then
-        pcall(function()
-            setfflag("AbuseReportScreenshot", "False")
-            setfflag("AbuseReportScreenshotPercentage", "0")
-        end)
-    end
-
-    if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
-        local function AntiChatLog(message)
-            if message:sub(1, 2) == "/e" then
-                return message
-            else
-                return message .. ""
-            end
-        end
-
-        local function onMessageReceived(message)
-            local modifiedMessage = AntiChatLog(message.Text)
-            message.Text = modifiedMessage
-        end
-
-        TCS.OnMessageReceived = onMessageReceived
-    else
         local Util = {}
 
         local ChatRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
@@ -210,5 +125,11 @@ end
 wait(0.21)
 executeScript()
 
+    local EnabledChat = task.spawn(function()
+        repeat
+            StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)
+            task.wait()
+        until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat)
+    end)
+
 -- ↑↑↑ IF ANYONE KNOWS HOW TO MAKE THIS SHIT WORK EVEN WHEN YOU DO /E LMK (on legacy) ↑↑↑
-end
