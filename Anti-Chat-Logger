@@ -21,55 +21,54 @@ local CoreGui = game:GetService("CoreGui")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 
-if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
+local hasExecuted = LocalPlayer:FindFirstChild("HasExecuted")
+if not hasExecuted then
+    hasExecuted = Instance.new("BoolValue")
+    hasExecuted.Name = "HasExecuted"
+    hasExecuted.Value = false
+    hasExecuted.Parent = LocalPlayer
+end
 
-    local hasExecuted = LocalPlayer:FindFirstChild("HasExecuted")
-    if not hasExecuted then
-        hasExecuted = Instance.new("BoolValue")
-        hasExecuted.Name = "HasExecuted"
-        hasExecuted.Value = false
-        hasExecuted.Parent = LocalPlayer
+local startTime = tick()
+
+local function showNotification(title, description, imageId)
+    if StarterGui then
+        StarterGui:SetCore("SendNotification", {
+            Title = title;
+            Text = description;
+            Icon = imageId;
+            Duration = 15;
+        })
+    end
+end
+
+local function executeScript()
+    if hasExecuted.Value then
+        showNotification("Vadrifts ACL", "Anti Chat and Screenshot logger already loaded!", "rbxassetid://2541869220")
+        print("Anti Chat Logger already loaded!")
+        return
     end
 
-    local startTime = tick()
+    hasExecuted.Value = true
 
-    local function showNotification(title, description, imageId)
-        if StarterGui then
-            StarterGui:SetCore("SendNotification", {
-                Title = title;
-                Text = description;
-                Icon = imageId;
-                Duration = 15;
-            })
-        end
+    local ACLloadTime = tick() - startTime
+
+    showNotification("Vadrifts ACL", string.format("Anti Chat & Screenshot logger loaded in %.2fs", ACLloadTime), "rbxassetid://2541869220")
+    print(string.format("Anti Chat Logger successfully loaded in %.2f seconds!", ACLloadTime))
+
+    if setfflag then
+        pcall(function()
+            setfflag("AbuseReportScreenshot", "False")
+            setfflag("AbuseReportScreenshotPercentage", "0")
+        end)
     end
 
-    local function executeScript()
-        if hasExecuted.Value then
-            showNotification("Vadrifts ACL", "Anti Chat and Screenshot logger already loaded!", "rbxassetid://2541869220")
-            print("Anti Chat Logger already loaded!")
-            return
-        end
-
-        hasExecuted.Value = true
-
-        local ACLloadTime = tick() - startTime
-
-        showNotification("Vadrifts ACL", string.format("Anti Chat & Screenshot logger loaded in %.2fs", ACLloadTime), "rbxassetid://2541869220")
-        print(string.format("Anti Chat Logger successfully loaded in %.2f seconds!", ACLloadTime))
-
-        if setfflag then
-            pcall(function()
-                setfflag("AbuseReportScreenshot", "False")
-                setfflag("AbuseReportScreenshotPercentage", "0")
-            end) -- anti-screenshot logger
-        end
-
+    if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
         local function AntiChatLog(message)
             if message:sub(1, 2) == "/e" then
                 return message
             else
-                return message .. ""
+                return message .. "󠀕"
             end
         end
 
@@ -83,55 +82,42 @@ if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
                 onMessageSent(message)
             end
         end
-    end
+    else
+        local Util = {}
 
-    wait(0.21)
-    executeScript()
+        local ChatRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
+        local ChatBar = CoreGui:FindFirstChild("TextBoxContainer", true) or LocalPlayer.PlayerGui:FindFirstChild("Chat"):FindFirstChild("ChatBar", true)
+        ChatBar = ChatBar:FindFirstChild("TextBox") or ChatBar
 
-    task.spawn(function()
-        if StarterGui then
-            repeat
-                StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)
-                task.wait()
-            until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat)
+        Util.Chat = function(Message)
+            if TCS.ChatVersion == Enum.ChatVersion.LegacyChatService then
+                ChatRemote:FireServer(Message, "All")
+            else
+                local Channel = TCS.TextChannels.RBXGeneral
+                Channel:SendAsync(Message)
+            end
         end
-    end)
 
-else
-    local Util = {}
+        Util.ChatHook = function()
+            local Connection = Instance.new("BindableFunction")
 
-    local ChatRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
-    local ChatBar = CoreGui:FindFirstChild("TextBoxContainer", true) or LocalPlayer.PlayerGui:FindFirstChild("Chat"):FindFirstChild("ChatBar", true)
-    ChatBar = ChatBar:FindFirstChild("TextBox") or ChatBar
+            ChatBar.MultiLine = true
+            UserInputService.InputBegan:Connect(function(Input, GPE)
+                if not GPE or Input.KeyCode ~= Enum.KeyCode.Return then return end
+                Connection:Invoke(ChatBar.Text:gsub("%c", ""))
+                ChatBar.Text = ""
+                ChatBar:ReleaseFocus()
+            end)
 
-    Util.Chat = function(Message)
-        if TCS.ChatVersion == Enum.ChatVersion.LegacyChatService then
-            ChatRemote:FireServer(Message, "All")
-        else
-            local Channel = TCS.TextChannels.RBXGeneral
-            Channel:SendAsync(Message)
+            return Connection
         end
-    end
 
-    Util.ChatHook = function()
-        local Connection = Instance.new("BindableFunction")
+        local Connection = Util.ChatHook()
 
-        ChatBar.MultiLine = true
-        UserInputService.InputBegan:Connect(function(Input, GPE)
-            if not GPE or Input.KeyCode ~= Enum.KeyCode.Return then return end
-            Connection:Invoke(ChatBar.Text:gsub("%c", ""))
-            ChatBar.Text = ""
-            ChatBar:ReleaseFocus()
-        end)
-
-        return Connection
-    end
-
-    local Connection = Util.ChatHook()
-
-    Connection.OnInvoke = function(Message)
-        if Message ~= "" and Message ~= " " then
-            Util.Chat(Message)
+        Connection.OnInvoke = function(Message)
+            if Message ~= "" and Message ~= " " then
+                Util.Chat(Message)
+            end
         end
     end
 end
@@ -145,5 +131,3 @@ task.spawn(function()
         task.wait()
     until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat)
 end)
-
--- ↑↑↑ IF ANYONE KNOWS HOW TO MAKE THIS SHIT WORK EVEN WHEN YOU DO /E LMK (on legacy) ↑↑↑
