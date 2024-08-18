@@ -1,0 +1,515 @@
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/Rafacasari/ArrayField/main/v2.lua'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "Hide and Seek Extreme | https://dsc.gg/vadriftz",
+   LoadingTitle = "Vadrifts",
+	LoadingSubtitle = "Make kids cry!",
+    OldTabLayout = true,
+	ConfigurationSaving = {
+		Enabled = false,
+		FolderName = nil,
+		FileName = "Big Hub",
+	},
+	Discord = {
+		Enabled = true,
+		Invite = "dsc.gg/vadriftz",
+		RememberJoins = true,
+	},
+	KeySystem = false,
+	KeySettings = {
+		Title = "key at:",
+		Subtitle = "https://dsc.gg/vadriftz",
+		Note = "The key changes every 2 weeks or so!",
+		FileName = "SiriusKey",
+		SaveKey = true,
+		GrabKeyFromSite = false,
+		Key = "TalkingBen2",
+	},
+})
+
+local Home = Window:CreateTab("Home")
+local Discord = Home:CreateSection("Discord", false)
+
+local playerName = game.Players.LocalPlayer.Name
+
+Home:CreateButton({
+    Name = "Welcome " .. playerName .. ", updates n stuff @ our discord",
+Interact = "Copy",
+	SectionParent = Discord,
+    Callback = function()
+setclipboard("https://dsc.gg/vadriftz")
+    end,
+})
+
+Home:CreateButton({
+    Name = "Discord | Click To Copy",
+Interact = "Copy",
+	SectionParent = Discord,
+    Callback = function()
+setclipboard("https://dsc.gg/vadriftz")
+    end,
+})
+
+local UI = Home:CreateSection("Close Interface", false)
+
+Home:CreateButton({
+    Name = "Close Interface",
+Interact = "Close",
+	SectionParent = UI,
+    Callback = function()
+Rayfield:Destroy()
+   end,
+})
+
+local MVS = Home:CreateSection("More Vadrifts Scripts", false)
+
+Home:CreateButton({
+    Name = "Vadrifts Chat Bypass",
+Interact = "Close",
+	SectionParent = MVS,
+    Callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/Bypass/main/Chat.Bypasser"))()
+   end,
+})
+
+Home:CreateButton({
+    Name = "Vadrifts Horrific Housing",
+Interact = "Close",
+	SectionParent = MVS,
+    Callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/HorrificHousing-v1.02"))()
+   end,
+})
+
+local Main = Window:CreateTab("Main")
+local SNC = Main:CreateSection("Shop & Credits", false)
+
+Main:CreateButton({
+    SectionParent = SNC,
+    Name = "Get Credits",
+    Callback = function()
+local humanoid = game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid")
+local creditsModel = game.Workspace:WaitForChild("GameObjects")
+
+local originalPosition = humanoid.RootPart.CFrame
+
+local parts = creditsModel:GetDescendants()
+for _, part in ipairs(parts) do
+    if part:IsA("BasePart") then
+        humanoid.RootPart.CFrame = part.CFrame
+        wait()
+    end
+end
+
+humanoid.RootPart.CFrame = originalPosition
+    end,
+})
+
+local LocalPlayer = Main:CreateSection("LocalPlayer", false)
+
+local infiniteJumpEnabled = false
+local infiniteJumpConnection
+
+Main:CreateToggle({
+	SectionParent = LocalPlayer,
+    Name = "Noclip",
+    Default = false,
+    Callback = function(state)
+        loadstring(game:HttpGet("https://pastebin.com/raw/yEWTQ0PS"))()
+    end    
+})
+
+Main:CreateToggle({
+    Name = "Infinite Jump",
+	SectionParent = LocalPlayer,
+    Default = false,
+    Callback = function(Value)
+        infiniteJumpEnabled = Value
+
+        if infiniteJumpEnabled then
+            local plr = game:GetService('Players').LocalPlayer
+            local m = plr:GetMouse()
+
+            infiniteJumpConnection = m.KeyDown:Connect(function(k)
+                if k:byte() == 32 then
+                    local humanoid = plr.Character:FindFirstChildOfClass('Humanoid')
+                    if humanoid then
+                        humanoid:ChangeState('Jumping')
+                        wait()
+                        humanoid:ChangeState('Seated')
+                    end
+                end
+            end)
+        else
+            if infiniteJumpConnection then
+                infiniteJumpConnection:Disconnect()
+                infiniteJumpConnection = nil
+            end
+        end
+    end
+})
+
+local defaultWalkSpeed = game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed
+local defaultJumpPower = game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower
+
+Main:CreateSlider({
+    Name = "WalkSpeed",
+    Info = "Set the character's walking speed.",
+	SectionParent = LocalPlayer,
+    Range = {1, 350},
+    Increment = 1,
+    Suffix = "Speed",
+    CurrentValue = defaultWalkSpeed,
+    Flag = "WalkSpeedSlider",
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+    end    
+})
+
+Main:CreateSlider({
+    Name = "JumpPower",
+    Info = "Set the character's jump power.",
+	SectionParent = LocalPlayer,
+    Range = {1, 350},
+    Increment = 1,
+    Suffix = "JumpPower",
+    CurrentValue = defaultJumpPower,
+    Flag = "JumpPowerSlider",
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+    end    
+})
+
+local ITTab = Window:CreateTab("IT")
+local IT = ITTab:CreateSection("IT", false)
+local Note = ITTab:CreateParagraph({Title = "Note", Content = "These Options are supposed to be specifically for if youre 'IT' (the seeker)", IT})
+
+local Button = ITTab:CreateButton({
+   Name = "Find All",
+Interact = "Find",
+	SectionParent = IT,
+   Callback = function()
+   local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local function teleportToPlayer(player)
+    local character = player.Character
+    if character then
+        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+        if humanoidRootPart then
+            LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(humanoidRootPart.Position)
+        end
+    end
+end
+
+for _, player in ipairs(Players:GetPlayers()) do
+    if player ~= LocalPlayer then
+        teleportToPlayer(player)
+        wait(0.01)
+    end
+end
+    end,    
+})
+
+local Button = ITTab:CreateButton({
+   Name = "Grab Credits",
+Interact = "Obtain",
+	SectionParent = IT,
+   Callback = function()
+   local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local teleportPosition = Vector3.new(330, 158, -33)
+
+local function teleportToPosition(position)
+    LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(position)
+end
+
+teleportToPosition(teleportPosition)
+    end,    
+})
+
+local HiderTab = Window:CreateTab("Hider")
+local Hider = HiderTab:CreateSection("Hider", false)
+
+HiderTab:CreateButton({
+    SectionParent = Hider,
+Interact = "Obtain",
+    Name = "Get Credits",
+    Callback = function()
+local humanoid = game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid")
+local creditsModel = game.Workspace:WaitForChild("GameObjects")
+
+local originalPosition = humanoid.RootPart.CFrame
+
+local parts = creditsModel:GetDescendants()
+for _, part in ipairs(parts) do
+    if part:IsA("BasePart") then
+        humanoid.RootPart.CFrame = part.CFrame
+        wait()
+    end
+end
+
+humanoid.RootPart.CFrame = originalPosition
+    end,
+})
+
+HiderTab:CreateButton({
+    Name = "Seeker ESP",
+    Interact = "Execute",
+    SectionParent = Hider,
+    Callback = function()
+        local plr = game:GetService('Players').LocalPlayer
+        local char = plr.Character
+        local hum = char:FindFirstChildOfClass('Humanoid')
+        local alarm = Instance.new('Sound', workspace)
+
+        alarm.Volume = 1
+        alarm.SoundId = "rbxassetid://910713928"
+        alarm.Looped = false
+        alarm.Name = "FatAlarm"
+
+        local function esp(a)
+            for _, b in pairs(a.Character:GetChildren()) do
+                if b.Name == "FatESP" or b.Name == "FatAlarm" then
+                    b:Destroy()
+                end
+            end
+            if a.Character and not a.Character:FindFirstChild('FatESP') then
+                for i = 0, 5 do
+                    local sg = Instance.new("SurfaceGui")
+                    sg.Face = i
+                    sg.AlwaysOnTop = true
+                    sg.Parent = a.Character
+                    sg.Name = "FatESP"
+                    sg.Adornee = a.Character:FindFirstChild('HumanoidRootPart')
+                    local fr = Instance.new("Frame", sg)
+                    fr.BackgroundColor3 = BrickColor.new('Really red').Color
+                    fr.BorderSizePixel = 0
+                    fr.BackgroundTransparency = 0.55
+                    fr.Size = UDim2.new(1, 0, 1, 0)
+                end
+            end
+        end
+
+        local it
+        while true do
+            task.wait()
+            pcall(function()
+                hum = char:FindFirstChildOfClass('Humanoid')
+            end)
+            for _, a in pairs(game:GetService('Players'):GetPlayers()) do
+                if a.Character and a:FindFirstChild('PlayerData') and a.PlayerData.It.Value == true then
+                    esp(a)
+                    it = a
+                    task.wait(0.1)
+                end
+            end
+            if it and it.Character and (it.Character.HumanoidRootPart.Position - char.HumanoidRootPart.Position).Magnitude <= 125 then
+                hum.WalkSpeed = hum.WalkSpeed * 1.1
+                alarm:Resume()
+            else
+                hum.WalkSpeed = 50
+                alarm:Stop()
+            end
+        end
+    end,
+})
+
+local TP = Window:CreateTab("Teleporter")
+local Teleporter = TP:CreateSection("Teleport", false)
+
+local TPinput = TP:CreateInput({
+    SectionParent = Teleporter,
+    Name = "Player User/Display:",
+    PlaceholderText = "Username or Display name",
+    RemoveTextAfterFocusLost = false,
+    Callback = function(Text)
+        playerName = Text
+    end,
+})
+
+local function teleportToPlayer(targetPlayer)
+    local localPlayer = game.Players.LocalPlayer
+    if localPlayer and targetPlayer then
+        local character = localPlayer.Character
+        local targetCharacter = targetPlayer.Character
+        if character and targetCharacter then
+            character:MoveTo(targetCharacter.PrimaryPart.Position)
+        end
+    end
+end
+
+local function findPlayer(name)
+    local lowerName = string.lower(name)
+    for _, player in ipairs(game.Players:GetPlayers()) do
+        if string.find(string.lower(player.Name), lowerName) or string.find(string.lower(player.DisplayName), lowerName) then
+            return player
+        end
+    end
+    return nil
+end
+
+TP:CreateButton({
+    Name = "Teleport",
+    Interact = "TP",
+    SectionParent = Teleporter,
+    Callback = function()
+        local targetPlayer = findPlayer(playerName)
+        if targetPlayer then
+            teleportToPlayer(targetPlayer)
+        else
+            OrionLib:MakeNotification({
+                Name = "Error",
+                Content = "Player not found!",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+        end
+    end,
+})
+
+TP:CreateButton({
+    Name = "Teleport to Random Player",
+    Interact = "TP",
+    SectionParent = Teleporter,
+    Callback = function()
+local Players = game:GetService("Players")
+local TeleportService = game:GetService("TeleportService")
+
+local function teleportToRandomPlayer()
+    local playerList = Players:GetPlayers()
+    local randomIndex = math.random(1, #playerList)
+    local randomPlayer = playerList[randomIndex]
+
+    if randomPlayer ~= Players.LocalPlayer then
+        Players.LocalPlayer.Character.HumanoidRootPart.CFrame = randomPlayer.Character.HumanoidRootPart.CFrame
+    end
+end
+
+teleportToRandomPlayer()
+    end,
+})
+
+local ESPTab = Window:CreateTab("ESP")
+local ESP = ESPTab:CreateSection("ESP", false)
+
+getgenv().esp = false
+getgenv().teamcheck = false
+getgenv().Color = Color3.fromRGB(255, 0, 0)
+
+ESPTab:CreateToggle({
+    Name = "ESP",
+	SectionParent = ESP,
+    Default = false,
+    Callback = function(Value)
+        getgenv().esp = Value
+        spawn(function()
+            while wait() do
+                if not getgenv().esp then
+                    for i, v in pairs(game.Players:GetChildren()) do
+                        if v.Character and v.Character:FindFirstChild("Highlight") then
+                            local Highlight = v.Character:FindFirstChild("Highlight")
+                            Highlight.Enabled = false
+                        end
+                    end
+                else
+                    for i, v in pairs(game.Players:GetChildren()) do
+                        if getgenv().teamcheck == true then
+                            if v.Character and v ~= game.Players.LocalPlayer and v.TeamColor ~= game.Players.LocalPlayer.TeamColor then
+                                if v.Character:FindFirstChild("Highlight") then
+                                    local Highlight = v.Character:FindFirstChild("Highlight")
+                                    Highlight.Enabled = true
+                                    Highlight.FillColor = getgenv().Color
+                                    Highlight.Adornee = v.Character
+                                else
+                                    local Highlight = Instance.new("Highlight", v.Character)
+                                    Highlight.Enabled = true
+                                    Highlight.FillColor = getgenv().Color
+                                    Highlight.Adornee = v.Character
+                                end       
+                            end  
+                            if v.TeamColor == game.Players.LocalPlayer.TeamColor then
+                                if v.Character and v.Character:FindFirstChild("Highlight") then
+                                    local Highlight = v.Character:FindFirstChild("Highlight")
+                                    Highlight.Enabled = false
+                                end    
+                            end 
+                        else
+                            if v.Character and v ~= game.Players.LocalPlayer then
+                                if v.Character:FindFirstChild("Highlight") then
+                                    local Highlight = v.Character:FindFirstChild("Highlight")
+                                    Highlight.Enabled = true
+                                    Highlight.FillColor = getgenv().Color
+                                    Highlight.Adornee = v.Character
+                                else
+                                    local Highlight = Instance.new("Highlight", v.Character)
+                                    Highlight.Enabled = true
+                                    Highlight.FillColor = getgenv().Color
+                                    Highlight.Adornee = v.Character
+                                end       
+                            end    
+                        end       
+                    end       
+                end    
+            end  
+        end)
+    end,    
+})
+
+ESPTab:CreateColorPicker({
+	Name = "ESP Color",
+	Info = 'The color of the ESP.',
+	SectionParent = ESP,
+	Color = Color3.fromRGB(255, 0, 0),
+	Flag = "ColorPicker1",
+	Callback = function(Value)
+		getgenv().Color = Value
+    end	  
+})
+
+local Misc = Window:CreateTab("Misc")
+local Useful = Misc:CreateSection("Useful Scripts", false)
+
+Misc:CreateButton({
+    Name = "Anti Fling",
+    Interact = "Execute",
+    SectionParent = Useful,
+    Callback = function()
+    if antifling then
+        antifling:Disconnect()
+        antifling = nil
+    end
+    antifling = RunService.Stepped:Connect(function()
+        for _, player in pairs(Players:GetPlayers()) do
+            if player ~= speaker and player.Character then
+                for _, v in pairs(player.Character:GetDescendants()) do
+                    if v:IsA("BasePart") then
+                        v.CanCollide = false
+                    end
+                end
+            end
+        end
+    end)
+    end,
+})
+
+local Admin = Misc:CreateSection("Admin", false)
+
+Misc:CreateButton({
+    Name = "Infinite Yield",
+    Interact = "Execute",
+    SectionParent = Admin,
+    Callback = function()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+    end,
+})
+
+Misc:CreateButton({
+    Name = "Nameless Admin",
+    Interact = "Execute",
+    SectionParent = Admin,
+    Callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/FilteringEnabled/NamelessAdmin/main/Source"))();
+    end,
+})
