@@ -255,7 +255,7 @@ humanoid.RootPart.CFrame = originalPosition
 })
 
 HiderTab:CreateButton({
-    Name = "Seeker Protection", --makes you see seekers/IT's ESP and when you come near him you get faster
+    Name = "Seeker Protection",
     Interact = "Execute",
     SectionParent = Hider,
     Callback = function()
@@ -315,6 +315,8 @@ HiderTab:CreateButton({
         end
     end,
 })
+
+local Help = HidetTab:CreateLabel("↑ Makes you see IT's ESP + Get faster when near him! ↑", Hider)
 
 local TP = Window:CreateTab("Teleporter")
 local Teleporter = TP:CreateSection("Teleport", false)
