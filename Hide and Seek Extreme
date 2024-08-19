@@ -1,5 +1,4 @@
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/Rafacasari/ArrayField/main/v2.lua'))()
-
 local Window = Rayfield:CreateWindow({
    Name = "Hide and Seek Extreme | https://dsc.gg/vadriftz",
    LoadingTitle = "Vadrifts",
@@ -86,6 +85,7 @@ local SNC = Main:CreateSection("Shop & Credits", false)
 
 Main:CreateButton({
     SectionParent = SNC,
+Interact = "Obtain",
     Name = "Get Credits",
     Callback = function()
 local humanoid = game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid")
@@ -109,15 +109,6 @@ local LocalPlayer = Main:CreateSection("LocalPlayer", false)
 
 local infiniteJumpEnabled = false
 local infiniteJumpConnection
-
-Main:CreateToggle({
-	SectionParent = LocalPlayer,
-    Name = "Noclip",
-    Default = false,
-    Callback = function(state)
-        loadstring(game:HttpGet("https://pastebin.com/raw/yEWTQ0PS"))()
-    end    
-})
 
 Main:CreateToggle({
     Name = "Infinite Jump",
@@ -180,6 +171,36 @@ Main:CreateSlider({
     end    
 })
 
+Main:CreateToggle({
+	SectionParent = LocalPlayer,
+    Name = "Noclip",
+    Default = false,
+    Callback = function(state)
+local runService = game:GetService("RunService")
+local player = game:GetService("Players").LocalPlayer
+
+_G.noclip = not _G.noclip
+
+local function ToggleCollision(part)
+    if part:IsA("BasePart") then
+        part.CanCollide = false
+    end
+end
+
+local function NoClipCallback()
+    if _G.noclip then
+        for _, character in ipairs(player.Character:GetDescendants()) do
+            ToggleCollision(character)
+        end
+    end
+end
+
+runService.Stepped:Connect(NoClipCallback)
+    end    
+})
+
+local Info = Main:CreateLabel("↑ Noclip usually doesnt turn off quickly ↑", LocalPlayer)
+
 local ITTab = Window:CreateTab("IT")
 local IT = ITTab:CreateSection("IT", false)
 local Note = ITTab:CreateParagraph({Title = "Note", Content = "These Options are supposed to be specifically for if youre 'IT' (the seeker)", IT})
@@ -211,22 +232,26 @@ end
     end,    
 })
 
-local Button = ITTab:CreateButton({
-   Name = "Grab Credits",
+ITTab:CreateButton({
+    SectionParent = IT,
 Interact = "Obtain",
-	SectionParent = IT,
-   Callback = function()
-   local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+    Name = "Get Credits",
+    Callback = function()
+local humanoid = game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid")
+local creditsModel = game.Workspace:WaitForChild("GameObjects")
 
-local teleportPosition = Vector3.new(330, 158, -33)
+local originalPosition = humanoid.RootPart.CFrame
 
-local function teleportToPosition(position)
-    LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(position)
+local parts = creditsModel:GetDescendants()
+for _, part in ipairs(parts) do
+    if part:IsA("BasePart") then
+        humanoid.RootPart.CFrame = part.CFrame
+        wait()
+    end
 end
 
-teleportToPosition(teleportPosition)
-    end,    
+humanoid.RootPart.CFrame = originalPosition
+    end,
 })
 
 local HiderTab = Window:CreateTab("Hider")
@@ -316,10 +341,10 @@ HiderTab:CreateButton({
     end,
 })
 
-local Help = HidetTab:CreateLabel("↑ Makes you see IT's ESP + Get faster when near him! ↑", Hider)
+local Help = HiderTab:CreateLabel("↑ Makes you see IT's ESP + Get faster when near him! ↑", Hider)
 
-local TP = Window:CreateTab("Teleporter")
-local Teleporter = TP:CreateSection("Teleport", false)
+local TP = Window:CreateTab("Teleports")
+local Teleporter = TP:CreateSection("Player", false)
 
 local TPinput = TP:CreateInput({
     SectionParent = Teleporter,
@@ -391,6 +416,148 @@ end
 
 teleportToRandomPlayer()
     end,
+})
+
+local Teleporter1 = TP:CreateSection("Map", false)
+
+local Lobby = TP:CreateLabel("Lobby", Teleporter1)
+
+local Button = TP:CreateButton({
+   Name = "Lobby",
+Interact = "TP",
+	SectionParent = Teleporter1,
+   Callback = function()
+   local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local teleportPosition = Vector3.new(330, 158, -33)
+
+local function teleportToPosition(position)
+    LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(position)
+end
+
+teleportToPosition(teleportPosition)
+    end,    
+})
+
+local Map = TP:CreateLabel("Attic", Teleporter1)
+
+local Button = TP:CreateButton({
+   Name = "Outside Map",
+Interact = "TP",
+	SectionParent = Teleporter1,
+   Callback = function()
+   local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local teleportPosition = Vector3.new(249, 3.9626555, -267)
+
+local function teleportToPosition(position)
+    LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(position)
+end
+
+teleportToPosition(teleportPosition)
+    end,    
+})
+
+local Map1 = TP:CreateLabel("Workshop", Teleporter1)
+
+local Button = TP:CreateButton({
+   Name = "Outside Map",
+Interact = "TP",
+	SectionParent = Teleporter1,
+   Callback = function()
+   local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local teleportPosition = Vector3.new(-176, 181, 6)
+
+local function teleportToPosition(position)
+    LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(position)
+end
+
+teleportToPosition(teleportPosition)
+    end,    
+})
+
+local Map2 = TP:CreateLabel("Backyard", Teleporter1)
+
+local Button = TP:CreateButton({
+   Name = "Roof",
+Interact = "TP",
+	SectionParent = Teleporter1,
+   Callback = function()
+   local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local teleportPosition = Vector3.new(-29.449, 156, -194)
+
+local function teleportToPosition(position)
+    LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(position)
+end
+
+teleportToPosition(teleportPosition)
+    end,    
+})
+
+local Map3 = TP:CreateLabel("Ethan's Bedroom", Teleporter1)
+
+local Button = TP:CreateButton({
+   Name = "OP Spot",
+Interact = "TP",
+	SectionParent = Teleporter1,
+   Callback = function()
+   local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local teleportPosition = Vector3.new(-55.370338439941406, 47.11876678466797, -135.255706)
+
+local function teleportToPosition(position)
+    LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(position)
+end
+
+teleportToPosition(teleportPosition)
+    end,    
+})
+
+local Map4= TP:CreateLabel("Shop", Teleporter1)
+
+local Button = TP:CreateButton({
+   Name = "OP Spot",
+Interact = "TP",
+	SectionParent = Teleporter1,
+   Callback = function()
+   local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local teleportPosition = Vector3.new(50, 5, 18.255706)
+
+local function teleportToPosition(position)
+    LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(position)
+end
+
+teleportToPosition(teleportPosition)
+    end,    
+})
+
+local Map5= TP:CreateLabel("Kitchen", Teleporter1)
+
+local Button = TP:CreateButton({
+   Name = "OP Spot",
+Interact = "TP",
+	SectionParent = Teleporter1,
+   Callback = function()
+   local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local teleportPosition = Vector3.new(-205, -48.937, 360)
+
+local function teleportToPosition(position)
+    LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(position)
+end
+
+teleportToPosition(teleportPosition)
+    end,    
 })
 
 local ESPTab = Window:CreateTab("ESP")
