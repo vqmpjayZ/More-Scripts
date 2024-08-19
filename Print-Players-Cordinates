@@ -12,7 +12,7 @@ local function printPlayerPosition()
     
     local position = humanoidRootPart.Position
     
-    print("Current Position: X=" .. position.X .. ", Y=" .. position.Y .. ", Z=" .. position.Z)
+    print("Current Position: X= " .. position.X .. ", Y= " .. position.Y .. ", Z= " .. position.Z)
 end
 
 printPlayerPosition()
