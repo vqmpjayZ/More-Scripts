@@ -1,4 +1,4 @@
--- Basically Anthony's anti-chat logger script but the TextChatService warning ui is set to false (not visible)
+-- Basically Anthony's anti-chat logger script but with slight changes
 -- Thank you anthony
 
 if not game:IsLoaded() then
