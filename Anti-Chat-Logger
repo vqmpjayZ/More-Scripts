@@ -106,6 +106,7 @@ end
 
 wait(0.21)
 executeScript()
+end
 
 task.spawn(function()
     repeat
