@@ -46,7 +46,24 @@ local PlayerGui = Player:FindFirstChildWhichIsA("PlayerGui") do
 end
 
 if getgenv().AntiChatLogger then
+if identifyexecutor() == "Solara" then
+    return Notify(NotificationTitle, "Anti Chat & Screenshot Logger Loaded!", 15)
+else
     return Notify(NotificationTitle, "Anti Chat & Screenshot Logger already loaded!", 15)
+end
+
+local Services = setmetatable({}, {
+    __index = function(_, serviceName)
+        local success, service = pcall(function()
+            return game:GetService(serviceName)
+        end)
+        if success then
+            return cloneref(service)
+        else
+            return nil
+        end
+    end
+})
 else
     getgenv().AntiChatLogger = true
 end
