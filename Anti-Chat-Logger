@@ -20,7 +20,6 @@ local LocalPlayer = Players.LocalPlayer
 local StarterGui = game:GetService("StarterGui")
 
 if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
-
     local hasExecuted = LocalPlayer:FindFirstChild("HasExecuted")
     if not hasExecuted then
         hasExecuted = Instance.new("BoolValue")
@@ -44,7 +43,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
 
     local function executeScript()
         if hasExecuted.Value then
-            showNotification("Vadrifts ACL", "Anti Chat and Screenshot logger already loaded!", "rbxassetid://2541869220")
+            showNotification("Vadrifts ACL", "Anti Chat and Screenshot logger already loaded!", "rbxassetid://2541869220")
             print("Anti Chat Logger already loaded!")
             return
         end
@@ -53,7 +52,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
 
         local ACLloadTime = tick() - startTime
 
-        showNotification("Vadrifts ACL", string.format("Anti Chat & Screenshot logger loaded in %.2fs", ACLloadTime), "rbxassetid://2541869220")
+        showNotification("Vadrifts ACL", string.format("Anti Chat & Screenshot logger loaded in %.2fs", ACLloadTime), "rbxassetid://2541869220")
         print(string.format("Anti Chat Logger successfully loaded in %.2f seconds!", ACLloadTime))
 
         if setfflag then
@@ -71,15 +70,9 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
             end
         end
 
-        local function onMessageSent(message)
+        TextChatService.OnIncomingMessage = function(message)
             local modifiedMessage = AntiChatLog(message.Text)
             message.Text = modifiedMessage
-        end
-
-        if TCS then
-            TCS.OnIncomingMessage = function(message)
-                onMessageSent(message)
-            end
         end
     end
 
@@ -96,13 +89,13 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     end)
 
 else
-
+    -- Credits: AnthonyIsntHere
     if not pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))() end) then
         loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))()
     end
 
-wait(0.21)
-executeScript()
+    wait(0.21)
+    executeScript()
 end
 
 task.spawn(function()
