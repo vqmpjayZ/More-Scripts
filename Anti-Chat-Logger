@@ -1,11 +1,12 @@
--- This basically makes roblox unable to log your chat messages sent in-game. Meaning if you get reported for saying something bad, you won't get banned!
--- Store the loadstring (line 5) in your autoexec folder into a text/lua file to receive automatic updates [remove the "--"" part when you paste it into the text file]
--- Credits: heartasians
+-- This script makes Roblox unable to log your chat messages sent in-game. Meaning if you get reported for saying something bad, you won't get banned! (TextChatService / Modern chat support)
+-- Store the loadstring (line 5) in your autoexec folder into a text/lua file to receive automatic updates [remove the "--" part when you paste it into the text file]
+-- Credits: AnthonyIsntHere
 
 -- loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anti-Chat-Logger", true))()
 
 --(DD/MM/YY)
 --15.8.2024 - Rewritten (i was high when i was doing it before)
+--3.9.2024 - Fixed Legacy and all bugs with it
 
 --https://dsc.gg/vadriftz
 
@@ -13,13 +14,10 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
-local TCS = game:GetService("TextChatService")
+local TextChatService = game:GetService("TextChatService")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local StarterGui = game:GetService("StarterGui")
-local CoreGui = game:GetService("CoreGui")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local UserInputService = game:GetService("UserInputService")
 
 local hasExecuted = LocalPlayer:FindFirstChild("HasExecuted")
 if not hasExecuted then
@@ -44,7 +42,6 @@ end
 
 local function executeScript()
     if hasExecuted.Value then
-        showNotification("Vadrifts ACL", "Anti Chat and Screenshot logger already loaded!", "rbxassetid://2541869220")
         print("Anti Chat Logger already loaded!")
         return
     end
@@ -52,8 +49,6 @@ local function executeScript()
     hasExecuted.Value = true
 
     local ACLloadTime = tick() - startTime
-
-    showNotification("Vadrifts ACL", string.format("Anti Chat & Screenshot logger loaded in %.2fs", ACLloadTime), "rbxassetid://2541869220")
     print(string.format("Anti Chat Logger successfully loaded in %.2f seconds!", ACLloadTime))
 
     if setfflag then
@@ -62,68 +57,40 @@ local function executeScript()
             setfflag("AbuseReportScreenshotPercentage", "0")
         end)
     end
-
-    if TCS.ChatVersion == Enum.ChatVersion.TextChatService then
-        local function AntiChatLog(message)
-            if message:sub(1, 2) == "/e" then
-                return message
-            else
-                return message .. "󠀕"
-            end
-        end
-
-        local function onMessageSent(message)
-            local modifiedMessage = AntiChatLog(message.Text)
-            message.Text = modifiedMessage
-        end
-
-        if TCS then
-            TCS.OnIncomingMessage = function(message)
-                onMessageSent(message)
-            end
-        end
-    else
-        local Util = {}
-
-        local ChatRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
-        local ChatBar = CoreGui:FindFirstChild("TextBoxContainer", true) or LocalPlayer.PlayerGui:FindFirstChild("Chat"):FindFirstChild("ChatBar", true)
-        ChatBar = ChatBar:FindFirstChild("TextBox") or ChatBar
-
-        Util.Chat = function(Message)
-            if TCS.ChatVersion == Enum.ChatVersion.LegacyChatService then
-                ChatRemote:FireServer(Message, "All")
-            else
-                local Channel = TCS.TextChannels.RBXGeneral
-                Channel:SendAsync(Message)
-            end
-        end
-
-        Util.ChatHook = function()
-            local Connection = Instance.new("BindableFunction")
-
-            ChatBar.MultiLine = true
-            UserInputService.InputBegan:Connect(function(Input, GPE)
-                if not GPE or Input.KeyCode ~= Enum.KeyCode.Return then return end
-                Connection:Invoke(ChatBar.Text:gsub("%c", ""))
-                ChatBar.Text = ""
-                ChatBar:ReleaseFocus()
-            end)
-
-            return Connection
-        end
-
-        local Connection = Util.ChatHook()
-
-        Connection.OnInvoke = function(Message)
-            if Message ~= "" and Message ~= " " then
-                Util.Chat(Message)
-            end
-        end
-    end
 end
 
-wait(0.21)
-executeScript()
+if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+    showNotification("Vadrifts ACL", "Anti Chat & Screenshot logger is loading...", "rbxassetid://2541869220")
+
+    local function AntiChatLog(message)
+        if message:sub(1, 2) == "/e" then
+            return message
+        else
+            return message .. ""
+        end
+    end
+
+    local function onMessageSent(message)
+        local modifiedMessage = AntiChatLog(message.Text)
+        message.Text = modifiedMessage
+    end
+
+    TextChatService.OnIncomingMessage = function(message)
+        onMessageSent(message)
+    end
+
+    executeScript()
+
+    showNotification("Vadrifts ACL", string.format("Anti Chat & Screenshot logger loaded in %.2fs", tick() - startTime), "rbxassetid://2541869220")
+
+else
+    -- Credits to AnthonyIsntHere
+    pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))()
+    end)
+
+    executeScript()
+end
 
 task.spawn(function()
     repeat
