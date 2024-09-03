@@ -18,9 +18,6 @@ local TextChatService = game:GetService("TextChatService")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local StarterGui = game:GetService("StarterGui")
-local CoreGui = game:GetService("CoreGui")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local UserInputService = game:GetService("UserInputService")
 
 if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
 
@@ -100,9 +97,9 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
 
 else
 
-if not pcall(loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))) then
-  loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))()
-end
+    if not pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))() end) then
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))()
+    end
 
 wait(0.21)
 executeScript()
