@@ -1,4 +1,4 @@
---[
+--[[
 Robox Horrific Housing Hub Script by Vadrifts
 Last Updated: 21.7.2024
 
