@@ -3,8 +3,12 @@
 --Update logs (DD/MM/YY):
 --(idk when) - Made it work (at this time heartasians script wasnt working correctly)
 --11.8.2024 - Added support to Solara
+local hasRun = false
 
 local function runScript()
+    if hasRun then return end
+    hasRun = true
+
     local TCS = game:GetService("TextChatService")
     local RStorage = game:GetService("ReplicatedStorage")
     local Players = game:GetService("Players")
@@ -77,10 +81,11 @@ local function runScript()
 end
 
 local success, err = pcall(runScript)
-if not success then
 --    warn("Error occurred: " .. tostring(err) .. ". Trying without disconnecting handlers.") -- you can remove the "--" at this part if you want to get the print notification that it didint work on your executor.
-    
-    local function runScriptWithoutDisconnect()
+if not success and not hasRun then
+if hasRun then return end
+hasRun = true
+local function runScriptWithoutDisconnect()
         local TCS = game:GetService("TextChatService")
         local RStorage = game:GetService("ReplicatedStorage")
         local Players = game:GetService("Players")
@@ -125,7 +130,7 @@ if not success then
         local ResetFilter = function()
             for i = 1, 10 do
                 local GUID = RNG(30)
-                local Filler = "real"
+                local Filler = "Cześć"
                 local Reset = ("%s %s"):format(GUID, Filler)
                 task.spawn(function()
                     Fake(Reset)
@@ -147,6 +152,6 @@ if not success then
             ResetFilter()
         end
     end
-
+end
     pcall(runScriptWithoutDisconnect)
 end
