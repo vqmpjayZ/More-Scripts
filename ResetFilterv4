@@ -49,7 +49,7 @@ local function runScript()
     local ResetFilter = function()
         for i = 1, 10 do
             local GUID = RNG(30)
-            local Filler = "real"
+            local Filler = "Cześć"
             local Reset = ("%s %s"):format(GUID, Filler)
             task.spawn(function()
                 Fake(Reset)
