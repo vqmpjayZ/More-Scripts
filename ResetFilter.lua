@@ -47,7 +47,7 @@ local function runScript()
     end
 
     local ResetFilter = function()
-        for i = 1, 10 do
+        for i = 1, 4 do
             local GUID = RNG(30)
             local Filler = "Cześćrezz"
             local Reset = ("%s %s"):format(GUID, Filler)
@@ -123,7 +123,7 @@ if not success then
         end
 
         local ResetFilter = function()
-            for i = 1, 10 do
+            for i = 1, 4 do
                 local GUID = RNG(30)
                 local Filler = "Cześćrezz"
                 local Reset = ("%s %s"):format(GUID, Filler)
