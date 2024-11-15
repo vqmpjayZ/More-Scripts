@@ -1,7 +1,7 @@
 --original by heartasians
 
 --Update logs (DD/MM/YY):
---5.5.2024 - Made it work (at this time heartasians script wasnt working correctly)
+--5.5.2024 - Made it work (at this time heartasians script wasnt working)
 --11.8.2024 - Added support to Solara
 --15.11.2024 - Fixed all issues
 
