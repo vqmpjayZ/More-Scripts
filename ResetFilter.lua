@@ -1,81 +1,151 @@
---original by heartasians
+--Credits: heartasians
+--I made support to ass executors
 
---Update logs (DD/MM/YY):
---5.5.2024 - Made it work (at this time heartasians script wasnt working)
---11.8.2024 - Added support to Solara and similar executors
---15.11.2024 - Fixed all issues
+local function runScript()
+    local TCS = game:GetService("TextChatService")
+    local RStorage = game:GetService("ReplicatedStorage")
+    local Players = game:GetService("Players")
+    local CoreGui = game:GetService("CoreGui")
+    local LocalPlayer = Players.LocalPlayer
+    local PlayerGui = LocalPlayer.PlayerGui
+    local isLegacy = TCS.ChatVersion == Enum.ChatVersion.LegacyChatService
+    local ChatBar = CoreGui:FindFirstChild("TextBoxContainer", true) or PlayerGui:FindFirstChild("Chat"):FindFirstChild("ChatBar", true)
+    ChatBar = ChatBar:FindFirstChild("TextBox") or ChatBar
 
-repeat task.wait() until game:IsLoaded()
+    local Chat = function(Message)
+        if isLegacy then
+            local ChatRemote = RStorage:FindFirstChild("SayMessageRequest", true)
+            ChatRemote:FireServer(Message, "All")
+        else
+            local Channel = TCS.TextChannels.RBXGeneral
+            Channel:SendAsync(Message)
+        end
+    end
 
-local TCS = game:GetService("TextChatService")
-local CoreGui = game:GetService("CoreGui")
-local RStorage = game:GetService("ReplicatedStorage")
-local Players = game:GetService("Players")
-local TweenService = game:GetService("TweenService")
-local HttpService = game:GetService("HttpService")
-local UserInputService = game:GetService("UserInputService")
+    local Fake = function(Message)
+        if isLegacy then
+            Players:Chat(Message)
+        else
+            local Channel = TCS.TextChannels.RBXGeneral
+            return
+        end
+    end
 
-local LocalPlayer = Players.LocalPlayer
-local PlayerGui = LocalPlayer.PlayerGui
+    local chars = {}
+    for i = 97, 122 do chars[#chars + 1] = string.char(i) end
+    for i = 65, 90 do chars[#chars + 1] = string.char(i) end
 
-local isLegacy = TCS.ChatVersion == Enum.ChatVersion.LegacyChatService
-local ChatBar = CoreGui:FindFirstChild("TextBoxContainer", true) or PlayerGui:FindFirstChild("Chat"):FindFirstChild("ChatBar", true)
-ChatBar = ChatBar:FindFirstChild("TextBox") or ChatBar
+    local RNG = function(length)
+        local str = ""
+        for i = 1, length do
+            str = str .. chars[math.random(#chars)]
+        end
+        return str
+    end
 
-local Chat = function(Message)
-    if isLegacy then
-        local ChatRemote = RStorage:FindFirstChild("SayMessageRequest", true)
-        ChatRemote:FireServer(Message, "All")
-    else
-        local Channel = TCS.TextChannels.RBXGeneral
-        Channel:SendAsync(Message)
+    local ResetFilter = function()
+        for i = 1, 10 do
+            local GUID = RNG(30)
+            local Filler = "bipas momen"
+            local Reset = ("%s %s"):format(GUID, Filler)
+            task.spawn(function()
+                task.wait(0.01 * i)
+                Fake(Reset)
+            end)
+        end
+    end    
+
+    local Connection = Instance.new("BindableFunction")
+
+    for _, c in getconnections(ChatBar.FocusLost) do
+        c:Disconnect()
+    end
+
+    ChatBar.FocusLost:Connect(function(enterPressed)
+        if enterPressed then
+            Connection:Invoke(ChatBar.Text)
+            ChatBar.Text = ""
+        end
+    end)
+
+    Connection.OnInvoke = function(Message)
+        Chat(Message)
+        ResetFilter()
     end
 end
 
-local Fake = function(Message)
-    if isLegacy then
-        Players:Chat(Message)
-    else
-        local Channel = TCS.TextChannels.RBXGeneral
-    end
-end
+local success, err = pcall(runScript)
+if not success then
+--    warn("Error occurred: " .. tostring(err) .. ". Trying without disconnecting handlers.") -- you can remove the "--" at this part if you want to get the print notification that it didint work on your executor.
+    
+    local function runScriptWithoutDisconnect()
+        local TCS = game:GetService("TextChatService")
+        local RStorage = game:GetService("ReplicatedStorage")
+        local Players = game:GetService("Players")
+        local CoreGui = game:GetService("CoreGui")
+        local LocalPlayer = Players.LocalPlayer
+        local PlayerGui = LocalPlayer.PlayerGui
+        local isLegacy = TCS.ChatVersion == Enum.ChatVersion.LegacyChatService
+        local ChatBar = CoreGui:FindFirstChild("TextBoxContainer", true) or PlayerGui:FindFirstChild("Chat"):FindFirstChild("ChatBar", true)
+        ChatBar = ChatBar:FindFirstChild("TextBox") or ChatBar
 
-local chars = {}
-for i=97,122 do chars[#chars+1]=string.char(i) end
-for i=65,90 do chars[#chars+1]=string.char(i) end
+        local Chat = function(Message)
+            if isLegacy then
+                local ChatRemote = RStorage:FindFirstChild("SayMessageRequest", true)
+                ChatRemote:FireServer(Message, "All")
+            else
+                local Channel = TCS.TextChannels.RBXGeneral
+                Channel:SendAsync(Message)
+            end
+        end
 
-local RNG = function(length)
-    local str = ""
-    for i = 1, length do
-        str = str .. chars[math.random(#chars)]
-    end
-    return str
-end
+        local Fake = function(Message)
+            if isLegacy then
+                Players:Chat(Message)
+            else
+                local Channel = TCS.TextChannels.RBXGeneral
+                return
+            end
+        end
 
-local ResetFilter = function()
-    for i = 1, 10 do
-        local GUID = RNG(i)
-        local Filler = "i love asians so much"
-        local Reset = ("%s %s"):format(GUID, Filler)
-        task.spawn(function()
-            Fake(Reset)
+        local chars = {}
+        for i = 97, 122 do chars[#chars + 1] = string.char(i) end
+        for i = 65, 90 do chars[#chars + 1] = string.char(i) end
+
+        local RNG = function(length)
+            local str = ""
+            for i = 1, length do
+                str = str .. chars[math.random(#chars)]
+            end
+            return str
+        end
+
+    local ResetFilter = function()
+        for i = 1, 10 do
+            local GUID = RNG(30)
+            local Filler = "bipas momen"
+            local Reset = ("%s %s"):format(GUID, Filler)
+            task.spawn(function()
+                task.wait(0.01 * i)
+                Fake(Reset)
+            end)
+        end
+    end    
+
+        local Connection = Instance.new("BindableFunction")
+
+        ChatBar.FocusLost:Connect(function(enterPressed)
+            if enterPressed then
+                Connection:Invoke(ChatBar.Text)
+                ChatBar.Text = ""
+            end
         end)
+
+        Connection.OnInvoke = function(Message)
+            Chat(Message)
+            ResetFilter()
+        end
     end
-end
 
-local Connection = Instance.new("BindableFunction")
-
-local oldConnection = ChatBar.FocusLost
-ChatBar.FocusLost = Instance.new("BindableEvent").Event
-
-ChatBar.FocusLost:Connect(function(enterPressed)
-    if enterPressed then
-        Connection:Invoke(ChatBar.Text)
-        ChatBar.Text = ""
-    end
-end)
-
-Connection.OnInvoke = function(Message)
-    Chat(Message)
-    ResetFilter()
+    pcall(runScriptWithoutDisconnect)
 end
