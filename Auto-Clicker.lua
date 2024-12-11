@@ -1,4 +1,4 @@
---not mine, i simply fixed the library
+--not mine, i simply fixed the library, all credits to Ezpi
 
 --// Credits \\--
 --[[ Ezpi#0474 - Creator of this script ]]--
@@ -26,7 +26,7 @@ end
 
 --// UI Library \\--
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/utils/main/library"))()
-local Window = Library:CreateWindow("AutoClicker by Ezpi")
+local Window = Library:CreateWindow("AutoClicker")
 Enabled_1 = Window:AddColor({
     text = 'Status:',
     flag = "Ezpi_1",
