@@ -6,7 +6,7 @@
   \/_/      \/_/\/_/   \/____/   \/_/ /_/   \/_/   \/_/       \/_/   \/_____/ 
 ]]
 --Made by vxmpjay ♥ ; Loadstring: loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/refs/heads/main/SaferScripter.lua"))()
---Basically blacklists Sysgeta (known skid) from your script; Blocks Sys's bypass stealer script; Blocks a BUNCH of Remote SPy's, Blocks some Http Spies (inconsistant), Blocks some scripts that usually crack scripts (inconsistant)
+--Basically blacklists Sysgeta (known skid) from your script; Blocks Sys's bypass stealer script; Blocks a BUNCH of Remote SPy's, Blocks some HTTP Spies
 --"Why is obfuscated, my shitty executor can't use it!!!" If it wasn't obfuscated then it would be easily bypassed
 --v0.02
 
