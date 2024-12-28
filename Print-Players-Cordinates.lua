@@ -1,6 +1,6 @@
 --used for easily finding spots to teleport
 
-local function printPlayerPosition()
+local function PrintandSetCPlayerPosition()
     local player = game.Players.LocalPlayer
     
     while not player.Character do
@@ -12,7 +12,8 @@ local function printPlayerPosition()
     
     local position = humanoidRootPart.Position
     
-    print("Current Position: X= " .. position.X .. ", Y= " .. position.Y .. ", Z= " .. position.Z)
+    print("Current Position: X= " .. position.X .. ",  Y= " .. position.Y .. ", Z= " .. position.Z)
+    setclipboard(position.X .. " " .. position.Y .. " " .. position.Z)
 end
 
-printPlayerPosition()
+PrintandSetCPlayerPosition()
