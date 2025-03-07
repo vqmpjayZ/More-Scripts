@@ -33,6 +33,7 @@ SusTool.Equipped:Connect(function()
         activeAnimation = humanoid:LoadAnimation(animation)
         activeAnimation:Play()
         activeAnimation.Looped = true
+        task.wait(0.01)
         activeAnimation:AdjustSpeed(0)
     else
         animation.AnimationId = "rbxassetid://176236333"
