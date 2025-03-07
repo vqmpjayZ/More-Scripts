@@ -1,3 +1,16 @@
+--[[
+
+     __   __   ______     _____     ______     __     ______   ______   ______    
+    /\ \ / /  /\  __ \   /\  __-.  /\  == \   /\ \   /\  ___\ /\__  _\ /\  ___\   
+    \ \ \'/   \ \  __ \  \ \ \/\ \ \ \  __<   \ \ \  \ \  __\ \/_/\ \/ \ \___  \  
+     \ \__|    \ \_\ \_\  \ \____-  \ \_\ \_\  \ \_\  \ \_\      \ \_\  \/\_____\ 
+      \/_/      \/_/\/_/   \/____/   \/_/ /_/   \/_/   \/_/       \/_/   \/_____/ 
+                                   dsc.gg/vadriftz
+]]
+
+-- Basically an Roblox Script which gives you a tool that allows you to do the german Salute
+-- Supports All Executors, Open Sourced, Works on R6 and R15, Works on all rig types
+
 local speaker = game.Players.LocalPlayer
 local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
 local backpack = speaker:FindFirstChildWhichIsA("Backpack")
@@ -9,7 +22,7 @@ end
 
 local tool = Instance.new("Tool")
 tool.Name = "Jerk Off"
-tool.ToolTip = "in the stripped club. straight up \"jorking it\" . and by \"it\" , haha, well. let's justr say. My peanits."
+tool.ToolTip = "in the stripped club. straight up \"jorking it\" . and by \"it\" , haha, well. let's just say. My peanits."
 tool.RequiresHandle = false
 tool.Parent = backpack
 
