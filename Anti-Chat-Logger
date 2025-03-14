@@ -44,7 +44,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
 
     local function executeScript()
         if hasExecuted.Value then
-            showNotification("Vadrifts ACL", Anti Chat & Screenshot Logger already loaded!", "rbxassetid://2541869220")
+            showNotification("Vadrifts ACL", "Anti Chat & Screenshot Logger already loaded!", "rbxassetid://2541869220")
             print("Anti Chat Logger already loaded!")
             return
         end
