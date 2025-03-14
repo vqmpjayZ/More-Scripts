@@ -4,7 +4,7 @@
 -- Store the loadstring (line 5) in your autoexec folder into a text/lua file to receive automatic updates [remove the "--" part when you paste it into the text file]
 -- Credits: AnthonyIsntHere
 
--- loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anti-Chat-Logger", true))()
+-- loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/refs/heads/main/Anti-Chat-LoggerV2.lua", true))()
 -- Original: loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anti-Chat-Logger", true))()
 
 --https://dsc.gg/vadriftz
