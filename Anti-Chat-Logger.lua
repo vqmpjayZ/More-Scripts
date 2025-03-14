@@ -22,8 +22,8 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local StarterGui = game:GetService("StarterGui")
 
-if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
 print("Loading Vadrift's Anti Chat & Screenshot Logger..")
+if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     local hasExecuted = LocalPlayer:FindFirstChild("HasExecuted")
     if not hasExecuted then
         hasExecuted = Instance.new("BoolValue")
@@ -66,7 +66,7 @@ print("Loading Vadrift's Anti Chat & Screenshot Logger..")
         end
 
         local function AntiChatLog(message)
-            if message:sub(1, 2) == "/e" or "/w" then
+            if message:sub(1, 2) == "/e" or message:sub(1, 2) == "/w" then
                 return message
             else
                 return message .. ""
