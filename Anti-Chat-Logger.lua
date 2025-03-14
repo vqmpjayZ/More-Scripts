@@ -3,10 +3,12 @@
 -- Credits: AnthonyIsntHere
 
 -- loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anti-Chat-Logger", true))()
+-- You have a bad executor? try (Notice: its detected in banwaves): loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/refs/heads/main/Anti-Chat-LoggerV2.lua", true))() 
 
 --(DD/MM/YY)
 --15.8.2024 - Rewritten (i was high when i was doing it before)
 --3.9.2024 - Fixed Legacy and all bugs with it
+--14.3.2025 - Unpatched
 
 --NOTICE = THIS MIGHT NOT WORK ON BAD EXECUTORS SUCH AS DELTA OR FLUXUS
 --https://dsc.gg/vadriftz
@@ -20,6 +22,7 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local StarterGui = game:GetService("StarterGui")
 
+print("Loading Vadrift's Anti Chat & Screenshot Logger..")
 if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     local hasExecuted = LocalPlayer:FindFirstChild("HasExecuted")
     if not hasExecuted then
@@ -55,7 +58,6 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
 
         showNotification("Vadrifts ACL", string.format("Anti Chat & Screenshot Logger Loaded!", ACLloadTime), "rbxassetid://2541869220")
         print(string.format("Anti Chat Logger successfully loaded in %.2f seconds!", ACLloadTime))
-
         if setfflag then
             pcall(function()
                 setfflag("AbuseReportScreenshot", "False")
@@ -64,7 +66,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         end
 
         local function AntiChatLog(message)
-            if message:sub(1, 2) == "/e" then
+            if message:sub(1, 2) == "/e" or "/w" then
                 return message
             else
                 return message .. ""
@@ -102,3 +104,5 @@ task.spawn(function()
         task.wait()
     until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat)
 end)
+        wait(5)
+        print("https://dsc.gg/vadriftz")
