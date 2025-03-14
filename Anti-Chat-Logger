@@ -1,10 +1,3 @@
---PATCHED DONT USE, WILL GET YOU BANNED.
---PATCHED DONT USE, WILL GET YOU BANNED.
---PATCHED DONT USE, WILL GET YOU BANNED.
---PATCHED DONT USE, WILL GET YOU BANNED.
---PATCHED DONT USE, WILL GET YOU BANNED.
---old code :sob:_
-
 -- This script makes Roblox unable to log your chat messages sent in-game. Meaning if you get reported for saying something bad, you won't get banned! (TextChatService / Modern chat support)
 -- Store the loadstring (line 5) in your autoexec folder into a text/lua file to receive automatic updates [remove the "--" part when you paste it into the text file]
 -- Credits: AnthonyIsntHere
@@ -15,6 +8,7 @@
 --15.8.2024 - Rewritten (i was high when i was doing it before)
 --3.9.2024 - Fixed Legacy and all bugs with it
 
+--NOTICE = THIS MIGHT NOT WORK ON BAD EXECUTORS SUCH AS DELTA OR FLUXUS
 --https://dsc.gg/vadriftz
 
 if not game:IsLoaded() then
