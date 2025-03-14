@@ -114,7 +114,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         end
 
         local function AntiChatLog(message)
-            if message:sub(1, 2) == "/e" or "/w" then
+            if message:sub(1, 2) == "/e" or message:sub(1, 2) == "/w" then
                 return message
             else
                 return message .. ""
