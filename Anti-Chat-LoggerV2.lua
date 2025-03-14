@@ -5,7 +5,7 @@
 -- Credits: AnthonyIsntHere
 
 -- loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/refs/heads/main/Anti-Chat-LoggerV2.lua", true))()
--- Original: loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anti-Chat-Logger", true))()
+-- Original: loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anti-Chat-Logger.lua", true))()
 
 --https://dsc.gg/vadriftz
 
