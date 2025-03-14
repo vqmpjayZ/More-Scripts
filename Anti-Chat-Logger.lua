@@ -22,8 +22,8 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local StarterGui = game:GetService("StarterGui")
 
-print("Loading Vadrift's Anti Chat & Screenshot Logger..")
 if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+print("Loading Vadrift's Anti Chat & Screenshot Logger..")
     local hasExecuted = LocalPlayer:FindFirstChild("HasExecuted")
     if not hasExecuted then
         hasExecuted = Instance.new("BoolValue")
