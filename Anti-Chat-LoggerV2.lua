@@ -176,6 +176,7 @@ else
     end
     
     loadAnthonyACL()
+print("Anti Chat & Screenshot Logger Loaded!")
 end
 
 task.spawn(function()
