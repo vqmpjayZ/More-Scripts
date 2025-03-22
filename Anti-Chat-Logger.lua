@@ -96,6 +96,7 @@ else
     if not pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))() end) then
         loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))()
     end
+print("Anti Chat & Screenshot Logger Loaded!")
 end
 
 task.spawn(function()
