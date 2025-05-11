@@ -117,7 +117,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
             if message:sub(1, 2) == "/e" or message:sub(1, 2) == "/w" then
                 return message
             else
-                return message .. ""
+                return "॓" .. message
             end
         end
 
