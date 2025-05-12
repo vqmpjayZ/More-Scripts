@@ -3,14 +3,12 @@
 -- Credits: AnthonyIsntHere
 
 -- loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anti-Chat-Logger.lua", true))()
--- You have a bad executor? try (WARNING: its detected in banwaves): loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/refs/heads/main/Anti-Chat-LoggerV2.lua", true))() 
 
 --(DD/MM/YY)
 --15.8.2024 - Rewritten (i was high when i was doing it before)
 --3.9.2024 - Fixed Legacy and all bugs with it
 --14.3.2025 - Fixed for roblox's new update
 
---NOTICE = THIS MIGHT NOT WORK ON BAD EXECUTORS SUCH AS DELTA OR FLUXUS
 --https://dsc.gg/vadriftz
 
 if not game:IsLoaded() then
