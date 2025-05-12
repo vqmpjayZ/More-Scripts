@@ -9,6 +9,9 @@
 
 --https://dsc.gg/vadriftz
 
+
+
+-- PROBABLY DISCONTINUED
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
