@@ -13,7 +13,6 @@
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
-
 local Players = game:GetService("Players")
 local TextChatService = game:GetService("TextChatService")
 local RunService = game:GetService("RunService")
@@ -28,7 +27,7 @@ print("Loading Vadrift's Anti Chat & Screenshot Logger..")
 
 if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     local startTime = tick()
-
+    task.wait(0.21)
     local function showNotification(title, description, imageId)
         pcall(function()
             StarterGui:SetCore("SendNotification", {
@@ -47,19 +46,24 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     end
     _G.VadriftsACLLoaded = true
 
-    showNotification("Vadrifts ACL", "Anti Chat & Screenshot Logger Loaded!", "rbxassetid://2541869220")
+    showNotification("Vadrifts ACL", string.format("Anti Chat & Screenshot Logger Loaded in %.2fs!", tick() - startTime), "rbxassetid://2541869220")
     print(string.format("ACL successfully loaded in %.2f seconds!", tick() - startTime))
 
     if setfflag then
         pcall(function()
             setfflag("AbuseReportScreenshot", "False")
             setfflag("AbuseReportScreenshotPercentage", "0")
-        end)
+        end) --anti screenshot logger
     end
 
+    --anti chat logger code
     local channel = TextChatService.TextChannels:FindFirstChild("RBXGeneral")
     local spamText = "/e cheer"
     local isPlayingUserEmote = false
+
+    if not _G.VadriftsACLConnections then
+        _G.VadriftsACLConnections = {}
+    end
 
     local function getIdleAnimationId()
         local char = lp.Character
@@ -80,7 +84,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     end
 
     task.spawn(function()
-        while true do
+        while _G.VadriftsACLLoaded do
             pcall(function()
                 if isPlayingUserEmote then return end
                 local char = lp.Character or lp.CharacterAdded:Wait()
@@ -115,7 +119,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
             warn("❌ Could not find chat bar.")
             return
         end
-        chatBar.FocusLost:Connect(function(enterPressed)
+        local connection = chatBar.FocusLost:Connect(function(enterPressed)
             if enterPressed then
                 local msg = chatBar.Text:lower()
                 if msg:match("^/e%s+[%w_]+") then
@@ -127,11 +131,12 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
                 end
             end
         end)
+        table.insert(_G.VadriftsACLConnections, connection)
     end
 
     setupChatHook()
 
-    RunService.Heartbeat:Connect(function()
+    local heartbeatConnection = RunService.Heartbeat:Connect(function()
         if isPlayingUserEmote then return end
         pcall(function()
             if channel then
@@ -139,8 +144,9 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
             end
         end)
     end)
+    table.insert(_G.VadriftsACLConnections, heartbeatConnection)
 
-    RunService.RenderStepped:Connect(function()
+    local renderSteppedConnection = RunService.RenderStepped:Connect(function()
         if isPlayingUserEmote then return end
         pcall(function()
             if channel then
@@ -148,24 +154,25 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
             end
         end)
     end)
+    table.insert(_G.VadriftsACLConnections, renderSteppedConnection)
 
     task.spawn(function()
         local sayRemote = ReplicatedStorage:FindFirstChild("SayMessageRequest", true)
-        while true do
+        while _G.VadriftsACLLoaded do
             if not isPlayingUserEmote and sayRemote then
                 pcall(function()
                     sayRemote:FireServer(spamText, "All")
                 end)
             end
             task.wait(0.04)
-        end
+        end --could be used as a reset filter
     end)
 
     task.wait(0.5)
     warn("Vadrift's modern chat anti chat logger may block the emote wheel and the cheer emote specifically from working. Use '/e' in chat when emoting.")
 else
     if not pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))() --by AnthonyIsntHere
     end) then
         loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anthony's%20ACL"))()
     end
@@ -179,5 +186,5 @@ task.spawn(function()
     until StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Chat)
 end)
 
-wait(5)
+task.wait(5)
 print("https://dsc.gg/vadriftz")
