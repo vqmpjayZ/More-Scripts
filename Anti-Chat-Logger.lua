@@ -1,6 +1,6 @@
 -- This script makes Roblox unable to log your chat messages sent in-game. Meaning if you get reported for saying something bad, you won't get banned! (TextChatService / Modern chat support)
 -- Store the loadstring (line 5) in your autoexec folder into a text/lua file to receive automatic updates [remove the "--" part when you paste it into the text file]
--- Credits: AnthonyIsntHere, mask0502
+-- Credits: AnthonyIsntHere, mask0502, heartasians
 
 -- loadstring(game:HttpGet("https://raw.githubusercontent.com/vqmpjayZ/More-Scripts/main/Anti-Chat-Logger.lua", true))()
 
@@ -172,7 +172,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
                 task.wait(0.04)
             end
         end)
-    end
+    end --could work as an Reset filter aswell
 
     task.wait(0.21)
     executeScript()
