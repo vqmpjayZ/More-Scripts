@@ -15,7 +15,8 @@ if not game:IsLoaded() then
 end
 
 if _G.VadriftsACLLoaded then
-    warn("Vadrift's ACL is already loaded.")
+    showNotification("Vadrifts ACL", "Anti Chat & Screenshot Logger already loaded!", "rbxassetid://2541869220")
+    print("Anti Chat Logger already loaded!")
     return
 end
 _G.VadriftsACLLoaded = true
