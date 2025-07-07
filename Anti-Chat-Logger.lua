@@ -156,7 +156,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
                     sayRemote:FireServer(spamText, "All")
                 end)
             end
-            task.wait(0.02)
+            task.wait(0.03)
         end
     end)
 
