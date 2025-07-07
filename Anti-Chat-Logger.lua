@@ -47,7 +47,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
     _G.VadriftsACLLoaded = true
 
     showNotification("Vadrifts ACL", string.format("Anti Chat & Screenshot Logger Loaded in %.2fs!", tick() - startTime), "rbxassetid://2541869220")
-    print(string.format("ACL successfully loaded in %.2f seconds!", tick() - startTime))
+    print(string.format("Semi Anti Chat Logger successfully loaded in %.2f seconds!", tick() - startTime))
 
     if setfflag then
         pcall(function()
