@@ -169,7 +169,7 @@ if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
                         sayRemote:FireServer(spamText, "All")
                     end)
                 end
-                task.wait(0.01)
+                task.wait(0.02)
             end
         end)
     end --could work as an Reset filter aswell
