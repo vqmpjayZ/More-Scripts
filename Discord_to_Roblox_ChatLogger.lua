@@ -1,6 +1,7 @@
 --[[
 re-scripted darks script cz his dumbahh got his website removed
 i also fixed the syn.request shi
+returning to tsin 2026 i made it work for textchatservice since legacy is gone
 
 Tutorial:
 make a discord webhook
@@ -10,41 +11,55 @@ put the webhooks url in the 'Your Discord Webhook Link Here!'
 this basically makes your bot start sending the chat messages from the server ur in
 --]]
 
-local marketplaceService = game:GetService("MarketplaceService")
- 
-local isSuccessful, info = pcall(marketplaceService.GetProductInfo, marketplaceService, Game.PlaceId)
-if isSuccessful then
- 
-local wh = 'Your Discord Webhook Link Here!'
-local embed1 = {
-       ['title'] = 'Beginning of Message logs on '..info.Name.." at "..tostring(os.date("%m/%d/%y at time %X"))
-   }
-local a = request({
-   Url = wh,
-   Headers = {['Content-Type'] = 'application/json'},
-   Body = game:GetService("HttpService"):JSONEncode({['embeds'] = {embed1}, ['content'] = ''}),
-   Method = "POST"
+local HttpService = game:GetService("HttpService")
+local TextChatService = game:GetService("TextChatService")
+local MarketplaceService = game:GetService("MarketplaceService")
+
+local success, info = pcall(MarketplaceService.GetProductInfo, MarketplaceService, game.PlaceId)
+if not success then
+    return
+end
+
+local wh = "https://discord.com/api/webhooks/1404578641698095234/D74JEPk8etkx0xgUVN4l-ZF2vYA32LZdw4uzK4cHwUU-zqg0ktXekiJH7jL2RcOojBCe"
+
+local startEmbed = {
+    ["title"] = "Beginning of Message logs on " .. info.Name .. " at " .. tostring(os.date("%m/%d/%y at time %X"))
+}
+
+request({
+    Url = wh,
+    Headers = {["Content-Type"] = "application/json"},
+    Body = HttpService:JSONEncode({
+        ["embeds"] = {startEmbed},
+        ["content"] = ""
+    }),
+    Method = "POST"
 })
-function logMsg(Webhook, Player, Message)
-   local embed = {
-       ['description'] = Player..": "..Message.."  " ..tostring(os.date("| time %X")) 
-   }
-   local a = request({
-       Url = Webhook,
-       Headers = {['Content-Type'] = 'application/json'},
-       Body = game:GetService("HttpService"):JSONEncode({['embeds'] = {embed}, ['content'] = ''}),
-       Method = "POST"
-   })
+
+local function logMsg(webhook, playerName, message)
+    local embed = {
+        ["description"] = playerName .. ": " .. message .. "  " .. tostring(os.date("| time %X"))
+    }
+
+    request({
+        Url = webhook,
+        Headers = {["Content-Type"] = "application/json"},
+        Body = HttpService:JSONEncode({
+            ["embeds"] = {embed},
+            ["content"] = ""
+        }),
+        Method = "POST"
+    })
 end
-for i,v in pairs(game.Players:GetPlayers()) do
-   v.Chatted:Connect(function(msg)
-       logMsg(wh, v.Name, msg)
-   end)
-end
- 
-game.Players.PlayerAdded:Connect(function(plr)
-   plr.Chatted:Connect(function(msg)
-       logMsg(wh, plr.Name, msg)
-   end)
+
+TextChatService.MessageReceived:Connect(function(textChatMessage)
+    local props = textChatMessage.TextSource
+    if not props then
+        return
+    end
+
+    local player = props.UserId and game.Players:GetPlayerByUserId(props.UserId)
+    local playerName = player and player.Name or props.Name or "Unknown"
+
+    logMsg(wh, playerName, textChatMessage.Text)
 end)
-end
