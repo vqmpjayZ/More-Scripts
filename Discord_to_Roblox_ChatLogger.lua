@@ -1,7 +1,7 @@
 --[[
 re-scripted darks script cz his dumbahh got his website removed
 i also fixed the syn.request shi
-returning to tsin 2026 i made it work for textchatservice since legacy is gone
+returning to this in 2026 i made it work for textchatservice since legacy is gone
 
 Tutorial:
 make a discord webhook
